@@ -1,0 +1,79 @@
+.initPageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+}
+
+.logo {
+  max-width: 120px;
+}
+
+.signInBtn {
+  background-color: #8373DF;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+.signInBtn:hover {
+  background-color: #9575CD;
+}
+
+.dropdown-btn{
+  background-color: #8373DF;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding: 15px;
+  background-color: #8373DF;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 100%; 
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 1;
+  margin: 5px;
+}
+
+.dropdown-option {
+  cursor: pointer;
+  background-color:  white;
+  color: #333;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px; 
+  height: 100px;
+  margin-top: 10px;
+}
+
+.dropdown-option img {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 8px;
+}

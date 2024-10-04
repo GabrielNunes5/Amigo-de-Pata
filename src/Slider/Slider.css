@@ -1,0 +1,50 @@
+.slick-slide img {
+  display: block;
+  margin: 0 auto;
+  width: 50%; 
+  height: auto;
+}
+
+.slider-container {
+  position: relative; 
+  
+}
+
+.slick-prev, .slick-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent; 
+  border-radius: 0; 
+  padding: 0;
+  z-index: 1;
+  font-size: 0; 
+  border: none; 
+  cursor: pointer;
+}
+
+.slick-prev:hover, .slick-next:hover {
+  background-color: transparent;
+}
+
+.slick-prev:before {
+  content: '←'; 
+  font-size: 30px; 
+  color: white;
+  display: block;
+}
+
+.slick-next:before {
+  content: '→';
+  font-size: 30px;
+  color: white;
+  display: block;
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px; 
+}
