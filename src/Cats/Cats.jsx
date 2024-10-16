@@ -4,31 +4,38 @@ import './Cats.css';
 
 export default function Cats() {
   const [cats, setCats] = useState([]);
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedColor, setSelectedColor] = useState(''); 
   const [selectedAge, setSelectedAge] = useState('');
+  const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchCats = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/cats');
-      setCats(response.data.cats); 
+      const response = await axios.get('http://127.0.0.1:5000/cats/filter', {
+        params: {
+          cat_color: selectedColor || undefined,
+          cat_age: selectedAge || undefined,
+          cat_adopted: selectedAdopted !== '' 
+          ? selectedAdopted === 'adotado' 
+            ? true 
+            : false 
+          : undefined,
+        },
+      });
+      setCats(response.data.cats);
     } catch (error) {
       console.error('Erro ao buscar gatos:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchCats();
-  }, []);
+  }, [selectedColor, selectedAge, selectedAdopted]); 
 
-  const filteredCats = cats.filter((cat) => {
-    const colorMatch = selectedColor
-      ? cat.cat_color.toLowerCase().includes(selectedColor.toLowerCase())
-      : true;
-
-    const ageMatch = selectedAge ? cat.cat_age === selectedAge : true;
-
-    return colorMatch && ageMatch;
-  });
+  const handleColorChange = (e) => {
+    const color = e.target.value;
+    setSelectedColor(color);
+  };
 
   return (
     <div className="catsPage">
@@ -37,7 +44,7 @@ export default function Cats() {
           <label htmlFor="colorFilter">Cor</label>
           <select
             id="colorFilter"
-            onChange={(e) => setSelectedColor(e.target.value)}
+            onChange={handleColorChange}
           >
             <option value="">Todas</option>
             <option value="preto">Preto</option>
@@ -47,7 +54,6 @@ export default function Cats() {
             <option value="tigrado">Tigrado</option>
           </select>
         </div>
-
         <div>
           <label htmlFor="ageFilter">Idade</label>
           <select
@@ -60,10 +66,23 @@ export default function Cats() {
             <option value="idoso">Idoso</option>
           </select>
         </div>
+
+        <div>
+          <label htmlFor="adoptedFilter">Status de Adoção</label>
+          <select
+            id="adoptedFilter"
+            onChange={(e) => setSelectedAdopted(e.target.value)}
+          >
+            <option value="">Todos</option>
+            <option value="adotado">Adotado</option>
+            <option value="nao_adotado">Não Adotado</option>
+          </select>
+        </div>
       </aside>
+
       <main className="filteredCats">
-        {filteredCats.length > 0 ? (
-          filteredCats.map((cat) => (
+        {cats.length > 0 ? (
+          cats.map((cat) => (
             <a key={cat.cat_name} href={`/cats/${cat.cat_name}`}>
               <div>
                 <img src={cat.cat_image_url} alt={cat.cat_name} />
