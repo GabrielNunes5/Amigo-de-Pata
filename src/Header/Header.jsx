@@ -1,13 +1,20 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Header = ({ showSignUpBtn = true }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation()
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(()=>{
+    if(isOpen){
+      setIsOpen(false)
+    }
+  },[location])
 
   return (
     <header className="initPageHeader">
