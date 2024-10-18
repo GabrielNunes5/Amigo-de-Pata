@@ -6,14 +6,14 @@ from ..models.users import Users
 users_bp = Blueprint('users', __name__)
 
 
-# Criar um novo usuário
+# Criar um novo usuário com a possibilidade de ser administrador
 @users_bp.route('/users', methods=['POST'])
 def post_user():
     body = request.get_json()
 
     try:
-        # Verifica se já existe um usuário com o mesmo nome
-        existing_user = Users.query.filter_by(user_name=body['user_name']).first()
+        existing_user = Users.query.filter_by(
+            user_name=body['user_name']).first()
         if existing_user:
             return gerar_response(
                 400,
@@ -25,7 +25,8 @@ def post_user():
         # Criando o objeto Users
         user = Users(
             user_name=body['user_name'],
-            user_endereco=body['user_endereco']
+            user_endereco=body['user_endereco'],
+            user_is_admin=body.get('user_is_admin', False)
         )
         user.set_password(body['user_password'])
 
