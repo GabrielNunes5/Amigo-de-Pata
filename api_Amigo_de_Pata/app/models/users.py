@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class Users(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_name = db.Column(db.String(100), nullable=False)
-    user_password = db.Column(db.String(128), nullable=False)  # Hash da senha
+    user_password = db.Column(db.String(255), nullable=False)  # Hash da senha
     user_endereco = db.Column(db.String(200), nullable=False)
     user_is_admin = db.Column(db.Boolean, default=False)
 
