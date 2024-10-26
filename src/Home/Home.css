@@ -1,0 +1,155 @@
+.mainSection1 {
+  position: relative;
+}
+.imgDiv {
+  width: 100%;
+  height: 650px;
+  background-color: #8473DF;
+}
+
+.backImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.textSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+.heartImg{
+  width: 100px;
+  height: 100px;
+  margin-top: 50px;
+}
+.textDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color:  #8373DF;
+  font-weight: medium;  
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+.textP{
+  font-size: 125%;
+  text-align: center;
+}
+
+.cardSection {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  gap: 20px;
+}
+
+.cardDogDiv, .cardCatDiv {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  text-align: center;
+  padding: 20px;
+  color: #6c63ff;
+}
+
+.cardDogDiv img, .cardCatDiv img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 15px;
+}
+
+.cardDogDiv h4, .cardCatDiv h4 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.cardDogDiv p, .cardCatDiv p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #6c63ff;
+}
+
+.cardBtn {
+  background-color: transparent;
+  border: 2px solid #6c63ff;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: #6c63ff;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cardBtn:hover {
+  background-color: #6c63ff;
+  color: white;
+}
+
+.carouselSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  width: 100%;
+}
+
+.slick-slide img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain; 
+  border-radius: 15px;
+}
+
+.slick-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouselSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.slick-prev, .slick-next {
+  z-index: 1;
+  color: black;
+}
+
+.slick-prev:before, .slick-next:before {
+  font-size: 24px;
+  color: black;
+}
+
+.slick-dots {
+  bottom: -30px;
+}
+
+.slick-track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.slick-slide{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.carouselImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

@@ -1,0 +1,102 @@
+.formSection{
+  background-color: #8373DF;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.formularioAdocao {
+  width: 80%;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+h2 {
+  color: #660099;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+input, select, textarea {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #8373DF;
+}
+
+input[type="checkbox"] {
+  width: auto;
+}
+
+textarea {
+  height: 80px;
+  resize: none;
+}
+
+button {
+  background-color: #660099;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+button:hover {
+  background-color: #550077;
+}
+
+.formularioAdocao input[type="text"],
+.formularioAdocao input[type="email"],
+.formularioAdocao input[type="tel"],
+.formularioAdocao input[type="number"],
+.formularioAdocao select,
+.formularioAdocao textarea {
+  transition: border-color 0.3s ease;
+}
+
+.formularioAdocao input[type="text"]:focus,
+.formularioAdocao input[type="email"]:focus,
+.formularioAdocao input[type="tel"]:focus,
+.formularioAdocao input[type="number"]:focus,
+.formularioAdocao select:focus,
+.formularioAdocao textarea:focus {
+  border-color: #660099;
+  outline: none;
+}
+
+.formularioAdocao .form-group {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.formularioAdocao .form-group label {
+  width: 48%;
+}
+
+@media (max-width: 768px) {
+  .formularioAdocao .form-group label {
+    width: 100%;
+  }
+
+  .formularioAdocao {
+    width: 95%;
+  }
+}
