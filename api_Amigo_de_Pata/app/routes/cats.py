@@ -166,6 +166,33 @@ def get_cat_color(cat_color):
             {},
             f'Error: {str(e)}'
         )
+    
+# Filtrar um gato por ID
+@cats_bp.route('/cat/id/<int:cat_id>', methods=['GET'])
+def get_cat_id(cat_id):
+    try:
+        cat = Cats.query.filter_by(cat_id=cat_id).first()
+        if not cat:
+            return gerar_response(
+                404,
+                'Cat',
+                {},
+                f'No cats found with name {cat_id}'
+            )
+        cat_json = cat.to_json()
+        return gerar_response(
+            200,
+            'cat',
+            cat_json,
+            'ok'
+        )
+    except Exception as e:
+        return gerar_response(
+            400,
+            'Cat',
+            {},
+            f'Error: {str(e)}'
+        )
 
 
 # Cria um gato no BD
