@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './Register.css';
-import Header from '../Header/Header'
+import Header from "../Header/Header";
 
 export default function Register() {
   const [formData, setFormData] = useState({

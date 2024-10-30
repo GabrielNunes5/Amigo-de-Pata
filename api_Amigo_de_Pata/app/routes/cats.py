@@ -243,6 +243,7 @@ def update_cat(cat_id):
             adopter = Users.query.filter_by(user_id=body['adopter_id']).first()
             if adopter:
                 cat.adopter_id = adopter.user_id  # Atualiza o ID do adotante
+                cat.cat_adopted = True
             else:
                 return gerar_response(
                     404,

@@ -4,132 +4,93 @@ import './Dogs.css';
 
 export default function Dogs() {
   const [dogs, setDogs] = useState([]);
-  const [breedOptions, setBreedOptions] = useState([]);
-  const [selectedBreed, setSelectedBreed] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedAge, setSelectedAge] = useState('');
+  const [selectedAdopted, setSelectedAdopted] = useState('');
 
-  const API_KEY = 'live_VfUt9O4MJIJhjEbVaoRQ0Zr1HbJVnrdeaFBEnkmy7zsmnWgIYd0RBHCelDmZv7KZ';
-
-  // Função para buscar as raças com base no nome digitado
-  const fetchBreedOptions = async (breedName) => {
+  const fetchDogs = async () => {
     try {
-      const breedListUrl = `https://api.thedogapi.com/v1/breeds/search?q=${breedName}`;
-      const breedResponse = await axios.get(breedListUrl, {
-        headers: {
-          'x-api-key': API_KEY,
-        },
-      });
-
-      setBreedOptions(breedResponse.data);
-    } catch (error) {
-      console.error('Erro ao buscar raças:', error);
-    }
-  };
-
-  // Função para buscar os cães com base no breed_id
-  const fetchDogs = async (breedId) => {
-    try {
-      const url = `https://api.thedogapi.com/v1/images/search`;
-
-      const response = await axios.get(url, {
-        headers: {
-          'x-api-key': API_KEY,
-        },
+      const response = await axios.get('http://127.0.0.1:5000/dogs/filter', {
         params: {
-          breed_id: breedId || undefined,
-          limit: 10,
+         dog_color: selectedColor || undefined,
+         dog_age: selectedAge || undefined,
+         dog_adopted: selectedAdopted !== '' 
+          ? selectedAdopted === 'adotado' 
+            ? true 
+            : false 
+          : undefined,
         },
       });
-
-      setDogs(response.data);
+      setDogs(response.data.dogs);
     } catch (error) {
-      console.error('Erro ao buscar cães:', error);
+      console.error('Erro ao buscar cachorros:', error);
     }
   };
+  
 
-  // UseEffect para buscar os cães sempre que a raça for selecionada
   useEffect(() => {
-    if (selectedBreed) {
-      fetchDogs(selectedBreed);
-    } else {
-      fetchDogs(); // Buscar cães sem filtro se não houver raça selecionada
-    }
-  }, [selectedBreed]);
+    fetchDogs();
+  }, [selectedColor, selectedAge, selectedAdopted]); 
 
-  // Atualiza as opções de raças conforme o usuário digita
-  const handleBreedChange = (e) => {
-    const breedName = e.target.value;
-    if (breedName) {
-      fetchBreedOptions(breedName);
-    } else {
-      setBreedOptions([]);
-    }
-  };
-
-  // Atualiza a raça selecionada com base no ID da raça
-  const handleBreedSelect = (breedId) => {
-    setSelectedBreed(breedId);
-    setBreedOptions([]); // Limpa as sugestões após a seleção
+  const handleColorChange = (e) => {
+    const color = e.target.value;
+    setSelectedColor(color);
   };
 
   return (
     <div className="dogsPage">
       <aside className="filterAside">
         <div>
-          <label htmlFor="breedFilter">Raça</label>
-          <input
-            type="text"
-            id="breedFilter"
-            onChange={handleBreedChange}
-            placeholder="Digite a raça"
-          />
-          {breedOptions.length > 0 && (
-            <ul className="breedOptions">
-              {breedOptions.map((breed) => (
-                <li key={breed.id} onClick={() => handleBreedSelect(breed.id)}>
-                  {breed.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Filtros de cor e idade (opcionais) */}
-        <div>
           <label htmlFor="colorFilter">Cor</label>
-          <select id="colorFilter" onChange={(e) => setSelectedColor(e.target.value)}>
+          <select
+            id="colorFilter"
+            onChange={handleColorChange}
+          >
             <option value="">Todas</option>
             <option value="preto">Preto</option>
             <option value="branco">Branco</option>
-            <option value="marrom">Marrom</option>
-            <option value="cinza">Cinza</option>
+            <option value="marrom">Caramelo</option>
+            <option value="duasCores">Multi cores</option>
           </select>
         </div>
-
         <div>
           <label htmlFor="ageFilter">Idade</label>
-          <select id="ageFilter" onChange={(e) => setSelectedAge(e.target.value)}>
+          <select
+            id="ageFilter"
+            onChange={(e) => setSelectedAge(e.target.value)}
+          >
             <option value="">Todas</option>
             <option value="filhote">Filhote</option>
             <option value="adulto">Adulto</option>
             <option value="idoso">Idoso</option>
           </select>
         </div>
+
+        <div>
+          <label htmlFor="adoptedFilter">Status de Adoção</label>
+          <select
+            id="adoptedFilter"
+            onChange={(e) => setSelectedAdopted(e.target.value)}
+          >
+            <option value="">Todos</option>
+            <option value="adotado">Adotado</option>
+            <option value="nao_adotado">Não Adotado</option>
+          </select>
+        </div>
       </aside>
 
-      <main className="filteredDogs">
+      <main className="filtereddogs">
         {dogs.length > 0 ? (
           dogs.map((dog) => (
-            <a key={dog.id} href={`/dogs/${dog.id}`}>
-              <div className="dogCard">
-                <img src={dog.url || 'https://via.placeholder.com/150'} alt={dog.breeds[0]?.name || 'Cão'} />
-                <p>{dog.breeds[0]?.name || 'Raça desconhecida'}</p>
+            <a key={dog.dog_name} href={`/dogs/${dog.dog_name}`}>
+              <div>
+                <img src={dog.dog_image_url} alt={dog.dog_name} />
+                <p>{dog.dog_name}</p>
               </div>
             </a>
           ))
         ) : (
-          <p>Nenhum cão encontrado.</p>
+          <p>Nenhum cachorro encontrado.</p>
         )}
       </main>
     </div>

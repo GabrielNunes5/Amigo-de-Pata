@@ -15,37 +15,40 @@ export default function Cats() {
           cat_color: selectedColor || undefined,
           cat_age: selectedAge || undefined,
           cat_adopted: selectedAdopted !== '' 
-          ? selectedAdopted === 'adotado' 
-            ? true 
-            : false 
-          : undefined,
+            ? selectedAdopted === 'adotado' 
+              ? true 
+              : false 
+            : undefined,
         },
       });
-      setCats(response.data.cats);
+
+      // Verifica se o retorno tem gatos, caso contrário, define uma lista vazia
+      if (response.data.cats.length > 0) {
+        setCats(response.data.cats);
+      } else {
+        setCats([]);
+      }
     } catch (error) {
       console.error('Erro ao buscar gatos:', error);
+      setCats([]); // Limpa os gatos filtrados em caso de erro
     }
   };
-  
 
   useEffect(() => {
-    fetchCats();
-  }, [selectedColor, selectedAge, selectedAdopted]); 
+    fetchCats(); // Chama o filtro ao inicializar a página e ao mudar os filtros
+  }, [selectedColor, selectedAge, selectedAdopted]);
 
   const handleColorChange = (e) => {
     const color = e.target.value;
     setSelectedColor(color);
   };
-
+  
   return (
     <div className="catsPage">
       <aside className="filterAside">
         <div>
           <label htmlFor="colorFilter">Cor</label>
-          <select
-            id="colorFilter"
-            onChange={handleColorChange}
-          >
+          <select id="colorFilter" onChange={handleColorChange}>
             <option value="">Todas</option>
             <option value="preto">Preto</option>
             <option value="branco">Branco</option>
@@ -56,23 +59,16 @@ export default function Cats() {
         </div>
         <div>
           <label htmlFor="ageFilter">Idade</label>
-          <select
-            id="ageFilter"
-            onChange={(e) => setSelectedAge(e.target.value)}
-          >
+          <select id="ageFilter" onChange={(e) => setSelectedAge(e.target.value)}>
             <option value="">Todas</option>
             <option value="filhote">Filhote</option>
             <option value="adulto">Adulto</option>
             <option value="idoso">Idoso</option>
           </select>
         </div>
-
         <div>
           <label htmlFor="adoptedFilter">Status de Adoção</label>
-          <select
-            id="adoptedFilter"
-            onChange={(e) => setSelectedAdopted(e.target.value)}
-          >
+          <select id="adoptedFilter" onChange={(e) => setSelectedAdopted(e.target.value)}>
             <option value="">Todos</option>
             <option value="adotado">Adotado</option>
             <option value="nao_adotado">Não Adotado</option>

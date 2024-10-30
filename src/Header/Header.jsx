@@ -4,17 +4,17 @@ import { useEffect, useState } from 'react';
 
 export const Header = ({ showSignUpBtn = true }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(()=>{
-    if(isOpen){
-      setIsOpen(false)
+  useEffect(() => {
+    if (isOpen) {
+      setIsOpen(false);
     }
-  },[location])
+  }, [location]);
 
   return (
     <header className="initPageHeader">
@@ -32,42 +32,45 @@ export const Header = ({ showSignUpBtn = true }) => {
         {isOpen && (
           <div className="dropdown-content">
             <div className="dropdown-row">
-              <div className="dropdown-option">
-                <img
-                  src="https://img.icons8.com/ios-filled/50/000000/dog.png"
-                  alt="dog icon"
-                />
-                <span>Cachorríneos</span>
-              </div>
-
-            <Link to={'/cats'}>
-            <div className="dropdown-option">
-                <img
-                  src="https://img.icons8.com/ios-filled/50/000000/cat.png"
-                  alt="cat icon"
-                />
-                <span>Gatíneos</span>
-              </div>
-            </Link>
-           
+              <Link to={'/Dogs'}>
+                <div className="dropdown-option">
+                  <img
+                    src="https://img.icons8.com/ios-filled/50/000000/dog.png"
+                    alt="dog icon"
+                  />
+                  <span>Cachorríneos</span>
+                </div>
+              </Link>
+              <Link to={'/cats'}>
+                <div className="dropdown-option">
+                  <img
+                    src="https://img.icons8.com/ios-filled/50/000000/cat.png"
+                    alt="cat icon"
+                  />
+                  <span>Gatíneos</span>
+                </div>
+              </Link>
             </div>
 
             <div className="dropdown-row">
-              <div className="dropdown-option">
-                <img
-                  src="https://img.icons8.com/ios-filled/50/000000/bird.png"
-                  alt="bird icon"
-                />
-                <span>Passaríneos</span>
-              </div>
+              <Link to={'/birds'}>
+                <div className="dropdown-option">
+                  <img
+                    src="https://img.icons8.com/ios-filled/50/000000/bird.png"
+                    alt="bird icon"
+                  />
+                  <span>Passaríneos</span>
+                </div>
+              </Link>
+              <Link to={'/others'}>
                 <div className="dropdown-option">
                   <img
                     src="https://img.icons8.com/ios-filled/50/000000/lizard.png"
                     alt="lizard icon"
                   />
-               
-                <span>Outros bichíneos</span>
-              </div>
+                  <span>Outros bichíneos</span>
+                </div>
+              </Link>
             </div>
           </div>
         )}
