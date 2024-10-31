@@ -25,7 +25,6 @@ def post_user():
         # Criando o objeto Users
         user = Users(
             user_name=body['user_name'],
-            user_endereco=body['user_endereco'],
             user_is_admin=body.get('user_is_admin', False)
         )
         user.set_password(body['user_password'])
@@ -115,8 +114,6 @@ def update_user(user_id):
     try:
         if 'user_name' in body:
             user.user_name = body['user_name']
-        if 'user_endereco' in body:
-            user.user_endereco = body['user_endereco']
         if 'user_password' in body:
             user.set_password(body['user_password'])
 
@@ -180,4 +177,4 @@ def gerar_response(status, nome_conteudo, conteudo, mensagem=False):
         json.dumps(body),
         status=status,
         mimetype='application/json'
-        )
+    )

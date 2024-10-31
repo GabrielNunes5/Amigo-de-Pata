@@ -9,10 +9,10 @@ class Dogs(db.Model):
     dog_image_url = db.Column(db.String(255), nullable=False)
     dog_adopted = db.Column(db.Boolean, default=False)
     adopter_id = db.Column(
-        db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+        db.Integer, db.ForeignKey('adopter.adopter_id'), nullable=True)
 
     # Relacionamento para o adotante
-    adopter = db.relationship('Users', backref='dogs_adopted', lazy=True)
+    adopter = db.relationship('Adopter', backref='dogs_adopted', lazy=True)
 
     def to_json(self):
         return {
@@ -22,5 +22,5 @@ class Dogs(db.Model):
             'dog_image_url': self.dog_image_url,
             'dog_adopted': self.dog_adopted,
             'adopter_id': self.adopter_id,
-            'adopter': self.adopter.user_name if self.adopter else None
+            'adopter': self.adopter.adopter_full_name if self.adopter else None
         }

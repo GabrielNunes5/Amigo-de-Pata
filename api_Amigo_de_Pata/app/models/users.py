@@ -6,12 +6,7 @@ class Users(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_name = db.Column(db.String(100), nullable=False)
     user_password = db.Column(db.String(255), nullable=False)  # Hash da senha
-    user_endereco = db.Column(db.String(200), nullable=False)
     user_is_admin = db.Column(db.Boolean, default=False)
-
-    # Relacionamento com gatos e cachorros
-    adopted_cats = db.relationship('Cats', backref='cat_adopter', lazy=True)
-    adopted_dogs = db.relationship('Dogs', backref='dog_adopter', lazy=True)
 
     def set_password(self, password):
         """Gera o hash da senha."""
@@ -24,8 +19,5 @@ class Users(db.Model):
     def to_json(self):
         return {
             'user_name': self.user_name,
-            'user_endereco': self.user_endereco,
             'is_admin': self.user_is_admin,
-            'adopted_cats': [cat.to_json() for cat in self.adopted_cats],
-            'adopted_dogs': [dog.to_json() for dog in self.adopted_dogs]
         }

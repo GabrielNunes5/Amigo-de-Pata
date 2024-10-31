@@ -2,7 +2,7 @@ from flask import Response, request, Blueprint
 import json
 from ..database import db
 from ..models.cats import Cats
-from ..models.users import Users
+from ..models.adopter import Adopter
 
 cats_bp = Blueprint('cats', __name__)
 
@@ -166,7 +166,8 @@ def get_cat_color(cat_color):
             {},
             f'Error: {str(e)}'
         )
-    
+
+
 # Filtrar um gato por ID
 @cats_bp.route('/cat/id/<int:cat_id>', methods=['GET'])
 def get_cat_id(cat_id):
@@ -213,11 +214,11 @@ def post_cat():
         adopter_id = body.get('adopter_id')  # O adotante é opcional
         adopter = None
         if adopter_id:
-            adopter = Users.query.get(adopter_id)
+            adopter = Adopter.query.get(adopter_id)
             if not adopter:
                 return gerar_response(
                     404,
-                    'User',
+                    'Adopter',
                     {},
                     'Adopter not found'
                 )
@@ -267,16 +268,18 @@ def update_cat(cat_id):
             cat.cat_adopted = body['cat_adopted']
         # Atualizar o adotante, se o ID foi fornecido
         if 'adopter_id' in body:
-            adopter = Users.query.filter_by(user_id=body['adopter_id']).first()
+            adopter = Adopter.query.filter_by(
+                adopter_id=body['adopter_id']).first()
             if adopter:
-                cat.adopter_id = adopter.user_id  # Atualiza o ID do adotante
+                # Atualiza o ID do adotante
+                cat.adopter_id = adopter.adopter_id
                 cat.cat_adopted = True
             else:
                 return gerar_response(
                     404,
-                    'User',
+                    'Adopter',
                     {},
-                    f'User with ID {body["adopter_id"]} not found'
+                    f'Adopter with ID {body["adopter_id"]} not found'
                 )
         db.session.commit()
         return gerar_response(
@@ -324,6 +327,7 @@ def delete_cat(cat_id):
             f'Error deleting cat: {str(e)}'
         )
 
+
 # Filtro para varias descrições
 @cats_bp.route('/cats/filter', methods=['GET'])
 def filter_cats():
@@ -338,7 +342,8 @@ def filter_cats():
         # URL da imagem
         cat_image_url = request.args.get('cat_image_url', type=str)
         # Se está adotado
-        cat_adopted = request.args.get('cat_adopted', type=lambda x: (str(x).lower() == 'true'))
+        cat_adopted = request.args.get(
+            'cat_adopted', type=lambda x: (str(x).lower() == 'true'))
         # ID do adotante
         adopter_id = request.args.get('adopter_id', type=int)
         # Construindo a query com base nos filtros fornecidos
@@ -379,6 +384,7 @@ def filter_cats():
             f'Error: {str(e)}'
         )
 
+
 def gerar_response(status, nome_conteudo, conteudo, mensagem=False):
     body = {}
     body[nome_conteudo] = conteudo
@@ -388,4 +394,4 @@ def gerar_response(status, nome_conteudo, conteudo, mensagem=False):
         json.dumps(body),
         status=status,
         mimetype='application/json'
-        )
+    )

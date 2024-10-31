@@ -2,7 +2,7 @@ from flask import Response, request, Blueprint
 import json
 from ..database import db
 from ..models.dogs import Dogs
-from ..models.users import Users
+from ..models.adopter import Adopter
 
 dogs_bp = Blueprint('dogs', __name__)
 
@@ -202,11 +202,11 @@ def post_dog():
         adopter_id = body.get('adopter_id')  # O adotante é opcional
         adopter = None
         if adopter_id:
-            adopter = Users.query.get(adopter_id)
+            adopter = Adopter.query.get(adopter_id)
             if not adopter:
                 return gerar_response(
                     404,
-                    'User',
+                    'Adopter',
                     {},
                     'Adopter not found'
                 )
@@ -264,15 +264,18 @@ def update_dog(dog_id):
 
         # Atualizar o adotante, se o ID foi fornecido
         if 'adopter_id' in body:
-            adopter = Users.query.filter_by(user_id=body['adopter_id']).first()
+            adopter = Adopter.query.filter_by(
+                adopter_id=body['adopter_id']).first()
             if adopter:
-                dog.adopter_id = adopter.user_id  # Atualiza o ID do adotante
+                # Atualiza o ID do adotante
+                dog.adopter_id = adopter.adopter_id
+                dog.dog_adopted = True
             else:
                 return gerar_response(
                     404,
-                    'User',
+                    'Adopter',
                     {},
-                    f'User with ID {body["adopter_id"]} not found'
+                    f'Adopter with ID {body["adopter_id"]} not found'
                 )
 
         db.session.commit()
@@ -397,4 +400,4 @@ def gerar_response(status, nome_conteudo, conteudo, mensagem=False):
         json.dumps(body),
         status=status,
         mimetype='applidogion/json'
-        )
+    )
