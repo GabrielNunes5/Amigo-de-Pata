@@ -48,7 +48,7 @@ textarea {
   resize: none;
 }
 
-button {
+.formularioAdocao button {
   background-color: #660099;
   color: white;
   padding: 10px 20px;
@@ -58,7 +58,7 @@ button {
   font-size: 18px;
 }
 
-button:hover {
+.formularioAdocao button:hover {
   background-color: #550077;
 }
 

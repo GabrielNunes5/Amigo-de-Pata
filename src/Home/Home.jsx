@@ -48,6 +48,17 @@ export default function Home() {
           <p>Saiba como cuidar do seu cãozinho</p>
           <button className="cardBtn">Saiba mais...</button>
         </div>
+
+        <div className="cardBirdDiv">
+          <img
+            src="https://img.freepik.com/fotos-gratis/pardal-de-madeira-velho-que-esta-nas-rochas-com-musgo_181624-5774.jpg?t=st=1730483742~exp=1730487342~hmac=99e6b2c6dd8aa18345baf2e63785c3cb0c1150efc3fe6dcc9cf2ada1221bffb3&w=740"
+            alt="imagem de um pássaro"
+          />
+          <h4>Guia de adoção para Pássaros</h4>
+          <p>Saiba como cuidar da sua ave</p>
+          <button className="cardBtn">Saiba mais...</button>
+        </div>
+
         <div className="cardCatDiv">
           <img
             src="https://img.freepik.com/free-photo/view-beautiful-persian-domestic-cat_23-2151773932.jpg?ga=GA1.1.1678703634.1718646592&semt=ais_hybrid"

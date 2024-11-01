@@ -42,13 +42,12 @@
 
 .cardSection {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   padding: 20px;
-  gap: 20px;
+  gap: 40px;  
 }
 
-.cardDogDiv, .cardCatDiv {
-  background-color: white;
+.cardDogDiv, .cardCatDiv, .cardBirdDiv {
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -58,20 +57,21 @@
   color: #6c63ff;
 }
 
-.cardDogDiv img, .cardCatDiv img {
+.cardDogDiv img, .cardCatDiv img, .cardBirdDiv img{
   width: 100%;
   height: 150px;
   object-fit: cover;
   border-bottom: 2px solid #ddd;
   margin-bottom: 15px;
+  border-radius: 10px;
 }
 
-.cardDogDiv h4, .cardCatDiv h4 {
+.cardDogDiv h4, .cardCatDiv h4,.cardBirdDiv h4{
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
-.cardDogDiv p, .cardCatDiv p {
+.cardDogDiv p, .cardCatDiv p, .cardBirdDiv p {
   font-size: 1rem;
   margin-bottom: 15px;
   color: #6c63ff;
@@ -80,7 +80,7 @@
 .cardBtn {
   background-color: transparent;
   border: 2px solid #6c63ff;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 10px 20px;
   color: #6c63ff;
   cursor: pointer;

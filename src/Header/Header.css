@@ -1,27 +1,50 @@
+body{
+  background-color: rgb(211, 211, 211)
+}
 .initPageHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: white;
+  padding: 5px 20px;
+  background-color: rgb(211, 211, 211);
+  
 }
-
+.menuDiv{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .logo {
-  max-width: 120px;
+  max-width: 60px;
+  mix-blend-mode: multiply;
+  transition: 0.5s ease-in-out;
 }
 
+.logo:hover {
+transform: scale(1.1);
+}
 .signInBtn {
-  background-color: #8373DF;
-  color: white;
+  color: #8373DF;
+  background-color: transparent;
+  border: 1px solid #8373DF;
   padding: 12px 24px;
-  border: none;
   border-radius: 8px;
   font-size: 1.1em;
   cursor: pointer;
+  transition: 0.3s ease-in-out;
 }
 
+
+.login {
+  color: #676286;
+  border:none;
+  text-decoration: underline;
+}
+
+
 .signInBtn:hover {
-  background-color: #9575CD;
+  color: #660099;
+  border: 1px solid #660099;
 }
 
 .dropdown-btn{
@@ -43,9 +66,17 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
   padding: 15px;
-  background-color: #8373DF;
+  color: #8373DF;
+  background: rgba(255, 255, 255, 0.2); /* Fundo semi-transparente */
+  backdrop-filter: blur(10px) brightness(1.2); /* Efeito de desfoque e brilho */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borda sutil */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  /* background-color: rgb(211, 211, 211);
+  border: 1px solid #8373DF;
   border-radius: 8px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); */
   position: absolute;
   top: 100%; 
   left: 50%;
@@ -54,15 +85,21 @@
   margin: 5px;
 }
 
+.dropdown-option:hover{
+  transition: 0.5s ease-in-out
+}
+
 .dropdown-option {
   cursor: pointer;
-  background-color:  white;
+  text-decoration: none;
   color: #333;
   text-align: center;
+  background: rgba(202, 202, 202, 0.2);
+  backdrop-filter: blur(10px) brightness(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  transition: background-color 0.3s ease;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,10 +107,47 @@
   width: 100px; 
   height: 100px;
   margin-top: 10px;
+  position: relative; /* Necessário para posicionar o ::before */
+  overflow: hidden; /* Para evitar que o ::before transborde */
+  transition: transform 200ms;
 }
+
+.dropdown-option::before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transition: 400ms;
+  transform: skewX(45deg) translateX(calc(100% + 50%)); /* Inicialmente fora da visão */
+}
+
+.dropdown-option:hover {
+  transform: translateY(-10px); /* Sobe um pouco ao passar o mouse */
+}
+
+.dropdown-option:hover::before {
+  transform: skewX(45deg) translateX(calc(-100% - 50%)); /* Movimenta o ::before em efeito "slide" */
+}
+
 
 .dropdown-option img {
   width: 30px;
   height: 30px;
   margin-bottom: 8px;
+}
+
+.heartImg{
+  mix-blend-mode: multiply;
+}
+
+.cardDogDiv{
+  mix-blend-mode: multiply;
+}
+.cardCatDiv{
+  mix-blend-mode: multiply;
+}
+a{
+  text-decoration: none
 }
