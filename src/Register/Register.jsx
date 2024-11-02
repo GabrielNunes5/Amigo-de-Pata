@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import './Register.css';
-import Header from "../Header/Header";
+import Header from '../Header/Header';
+import e from 'cors';
+import axios from 'axios';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -20,7 +22,7 @@ export default function Register() {
     motivoDaAdocao: '',
     compromissoDeCuidar: '',
     outrasExperiencias: '',
-    infoAdicional: ''
+    infoAdicional: '',
   });
 
   const handleChange = (e) => {
@@ -31,17 +33,41 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form Data:', formData);
-    // pegar link API/Banco de dados com o gaybriel
+    try {
+      // Fazendo a requisição para o backend com os nomes corretos
+      const response = await axios.post('http://localhost:5000/adopters', {
+        adopter_full_name: formData.nomeCompleto,
+        adopter_age: formData.idade,
+        adopter_email: formData.email,
+        adopter_phone: formData.telefone,
+        adopter_address: formData.endereco,
+        adopter_residence_type: formData.tipoDeResidencia,
+        adopter_has_garden: formData.jardim,
+        adopter_other_pets: formData.outrosPets,
+        adopter_pet_type: formData.tipoDePet,
+        adopter_pet_preference: formData.estiloDoPet,
+        adopter_occupation: formData.trabalho,
+        adopter_work_hours: formData.horasTrabalhadas,
+        adopter_income: formData.mediaSalarial,
+        adopter_adoption_reason: formData.motivoDaAdocao,
+        adopter_commitment_to_care: formData.compromissoDeCuidar,
+        adopter_experience_with_pets: formData.outrasExperiencias,
+        adopter_additional_info: formData.infoAdicional,
+      });
+      console.log('Adopter registered:', response.data);
+    } catch (error) {
+      console.log('Erro: ', error);
+    }
   };
 
   return (
     <>
       <section className="formSection">
         <form onSubmit={handleSubmit} className="formularioAdocao">
-          <h2>Cadastro/Formulário de Adoção</h2>
+          <h2>Formulário de Adoção</h2>
 
           <label>
             Nome completo:
@@ -95,7 +121,12 @@ export default function Register() {
           </label>
           <label>
             Tipo de Residência:
-            <select name="tipoDeResidencia" value={formData.tipoDeResidencia} onChange={handleChange} required>
+            <select
+              name="tipoDeResidencia"
+              value={formData.tipoDeResidencia}
+              onChange={handleChange}
+              required
+            >
               <option value="">Selecione...</option>
               <option value="casa">Casa</option>
               <option value="apartamento">Apartamento</option>
@@ -123,7 +154,12 @@ export default function Register() {
           </label>
           <label>
             Tipo de Pet Desejado:
-            <select name="tipoDePet" value={formData.tipoDePet} onChange={handleChange} required>
+            <select
+              name="tipoDePet"
+              value={formData.tipoDePet}
+              onChange={handleChange}
+              required
+            >
               <option value="">Selecione...</option>
               <option value="cachorro">Cachorro</option>
               <option value="gato">Gato</option>
@@ -160,16 +196,30 @@ export default function Register() {
               required
             />
           </label>
-          <label>
-            Média Salarial:
-            <input
-              type="number"
-              name="mediaSalarial"
-              value={formData.mediaSalarial}
-              onChange={handleChange}
-              required
-            />
-          </label>
+          <label htmlFor="mediaSalarial">Média Salarial:</label>
+          <select
+            name="mediaSalarial"
+            value={formData.mediaSalarial}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Selecione uma opção</option>
+            <option value="menos de um salário mínimo">
+              Menos de um salário mínimo
+            </option>
+            <option value="de 1 a 3 salários mínimos">
+              De um a 3 salários mínimos
+            </option>
+            <option value="de 3 a 5 salários mínimos">
+              De 3 a 5 salários mínimos
+            </option>
+            <option value="de 5 a 10 salários mínimos">
+              De 5 a 10 salários mínimos
+            </option>
+            <option value="mais de 10 salários mínimos">
+              Mais de 10 salários mínimos
+            </option>
+          </select>
           <label>
             Motivo da Adoção:
             <textarea
@@ -211,4 +261,3 @@ export default function Register() {
     </>
   );
 }
-
