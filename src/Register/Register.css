@@ -8,7 +8,7 @@
 .formularioAdocao {
   width: 80%;
   margin: 20px auto;
-  background-color: #fff;
+  background-color:rgb(211, 211, 211);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -30,6 +30,7 @@ label {
 }
 
 input, select, textarea {
+  background-color:  #E0E0E0;
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 20px;
