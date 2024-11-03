@@ -94,9 +94,8 @@ def get_adopter(adopter_id):
                                  {},
                                  f'Error fetching adopter: {str(e)}')
 
+
 # Rota para atualizar os dados de um adotante existente
-
-
 @adopters_bp.route('/adopters/<int:adopter_id>', methods=['PUT'])
 def update_adopter(adopter_id):
     adopter = Adopter.query.filter_by(adopter_id=adopter_id).first()
@@ -188,9 +187,8 @@ def delete_adopter(adopter_id):
                                  {},
                                  f'Error deleting adopter: {str(e)}')
 
+
 # Função para gerar uma resposta HTTP padronizada
-
-
 def generate_response(status, content_name, content, message=False):
     body = {content_name: content}
     if message:

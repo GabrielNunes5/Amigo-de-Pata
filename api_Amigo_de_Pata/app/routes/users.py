@@ -25,6 +25,7 @@ def post_user():
         # Criando o objeto Users
         user = Users(
             user_name=body['user_name'],
+            user_age=body['user_age'],
             user_is_admin=body.get('user_is_admin', False)
         )
         user.set_password(body['user_password'])
@@ -114,6 +115,8 @@ def update_user(user_id):
     try:
         if 'user_name' in body:
             user.user_name = body['user_name']
+        if 'user_age' in body:
+            user.user_age = body['user_age']
         if 'user_password' in body:
             user.set_password(body['user_password'])
 

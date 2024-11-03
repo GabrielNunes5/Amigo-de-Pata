@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Register.css';
 import Header from '../Header/Header';
-import e from 'cors';
+// import e from 'cors';
 import axios from 'axios';
 
 export default function Register() {
