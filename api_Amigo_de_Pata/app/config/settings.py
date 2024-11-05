@@ -13,3 +13,6 @@ class Config:
         f'mysql+mysqlconnector://{DB_USER}:{
             DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
     )
+
+
+print(DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)

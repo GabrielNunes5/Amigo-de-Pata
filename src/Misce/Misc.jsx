@@ -10,7 +10,7 @@ export const Misc = () => {
 
   const fetchAnimals = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/outros/filter', {
+      const response = await axios.get('http://127.0.0.1:5000/animals/filter', {
         params: {
           animal_species: selectedSpecies || undefined,
           animal_age_range: selectedAgeRange || undefined,
