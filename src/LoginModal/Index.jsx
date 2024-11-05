@@ -3,12 +3,10 @@ import './Index.css';
 import ReactInputMask from 'react-input-mask';
 
 export const LoginModal = ({ isModalOpen, onCloseModal }) => {
-  // Variáveis do login
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  // Variáveis do cadastro
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [birthDate, setBirthDate] = useState('');
@@ -17,7 +15,6 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
   const [passwordError, setPasswordError] = useState('');
   const [activeTab, setActiveTab] = useState('login');
 
-  // Validação de senha do usuário
   const validatePassword = (password) => {
     return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/.test(password);
   };
@@ -38,7 +35,6 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Fazer login
     if (!rememberMe) {
       setEmail('');
       setPassword('');
@@ -47,18 +43,34 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (passwordError) return;
-    // Cadastrar usuário
-    setActiveTab('login');
+    if (!passwordError && signupPassword === confirmPassword) {
+      setActiveTab('login');
+      resetForm(); // Limpa os campos após o cadastro
+    }
   };
 
   const handleOverlayClick = (e) => {
     if (e.target.classList.contains('modal-overlay')) {
-      onCloseModal();
+      handleCloseModal();
     }
   };
 
-  // Lembrar usuário
+  const handleCloseModal = () => {
+    resetForm(); // Limpa os campos ao fechar o modal
+    onCloseModal();
+  };
+
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+    setName('');
+    setPhone('');
+    setBirthDate('');
+    setSignupPassword('');
+    setConfirmPassword('');
+    setPasswordError('');
+  };
+
   useEffect(() => {
     if (rememberMe && email && password) {
       localStorage.setItem('savedLogin', JSON.stringify({ email, password }));
@@ -74,6 +86,8 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
         setEmail(savedLogin.email);
         setPassword(savedLogin.password);
       }
+    } else if (!isModalOpen) {
+      resetForm(); 
     }
   }, [isModalOpen]);
 
@@ -85,17 +99,29 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content">
         <div className="tabContainer">
-          <button className={`tab ${activeTab === 'login' ? 'active' : ''}`} onClick={() => setActiveTab('login')}>
+          <button
+            className={`tab ${activeTab === 'login' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('login');
+              resetForm();
+            }}
+          >
             Login
           </button>
-          <button className={`tab ${activeTab === 'signup' ? 'active' : ''}`} onClick={() => setActiveTab('signup')}>
+          <button
+            className={`tab ${activeTab === 'signup' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('signup');
+              resetForm();
+            }}
+          >
             Cadastre-se
           </button>
         </div>
 
         {activeTab === 'login' ? (
           <form onSubmit={handleLogin}>
-            <h2>Login</h2>
+            <h2 className="formTitle">Login</h2>
             <div className="formGroup">
               <label>Email: </label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -112,14 +138,14 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
             </div>
             <div className="bTnContainer">
               <button type="submit" className="confirmLogin">Entrar</button>
-              <button type="button" className="closeBtn" onClick={() => { onCloseModal(); setEmail(''); setPassword(''); }}>
+              <button type="button" className="closeBtn" onClick={handleCloseModal}>
                 Fechar
               </button>
             </div>
           </form>
         ) : (
           <form onSubmit={handleSignUp}>
-            <h2>Cadastre-se</h2>
+            <h2 className="formTitle">Cadastre-se</h2>
             <div className="formGroup">
               <label>Nome: </label>
               <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
@@ -160,7 +186,7 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
             </div>
             <div className="bTnContainer">
               <button type="submit" className="confirmLogin">Cadastrar</button>
-              <button type="button" className="closeBtn" onClick={onCloseModal}>Fechar</button>
+              <button type="button" className="closeBtn" onClick={handleCloseModal}>Fechar</button>
             </div>
           </form>
         )}
