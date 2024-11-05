@@ -1,34 +1,45 @@
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import logo from '../assets/logo.png';
-import logo1 from '../assets/logo1.png'
+import logo1 from '../assets/logo1.png';
 
-export const Header = ({ showSignUpBtn = true }) => {
+export const Header = ({ showSignUpBtn = true, onOpenLoginModal }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const dropDownRef = useRef(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
     if (isOpen) {
-      setIsOpen(false);
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
     }
-  }, [location]);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <header className="initPageHeader">
       <div className="menuDiv">
         <Link to={'/'}>
-        <img src={location.pathname === '/' ? logo : logo1} alt="webSiteLogo" className="logo" />
+          <img src={location.pathname === '/' ? logo : logo1} alt="webSiteLogo" className="logo" />
         </Link>
 
         <Link to={'/'}>
           <button className="signInBtn">Home</button>
         </Link>
-        <div className="dropdown-container">
+        <div className="dropdown-container" ref={dropDownRef}>
           <button onClick={toggleDropdown} className="signInBtn">
             Nossos Pets
           </button>
@@ -81,12 +92,17 @@ export const Header = ({ showSignUpBtn = true }) => {
         </div>
       </div>
       <div className="login">
-        <Link to={'/login'}>
-          <button className="signInBtn login">Login</button>
-        </Link>
-        <Link to={'/register'}>
-          <button className="signInBtn">Cadastre-se</button>
-        </Link>
+        <button className="signInBtn login" onClick={() => {
+          console.log("Botão de Login clicado"); // Mensagem de depuração
+          onOpenLoginModal();
+        }}>
+          Login
+        </button>
+        {showSignUpBtn && (
+          <Link to={'/register'}>
+            <button className="signInBtn">Cadastre-se</button>
+          </Link>
+        )}
       </div>
     </header>
   );
