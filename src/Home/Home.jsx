@@ -5,8 +5,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import '../Header/Header.css';
-import SlickSliderComponent from '../Slider/Slider'; 
-import './Home.css'
+import SlickSliderComponent from '../Slider/Slider';
+import './Home.css';
 export default function Home() {
   const location = useLocation();
 
@@ -14,7 +14,6 @@ export default function Home() {
 
   return (
     <>
-    
       <section className="mainSection1">
         <div className="imgDiv">
           <img
@@ -69,7 +68,7 @@ export default function Home() {
           <button className="cardBtn">Saiba mais...</button>
         </div>
       </section>
-      
+
       <SlickSliderComponent />
     </>
   );

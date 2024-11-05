@@ -33,7 +33,11 @@ export const Header = ({ showSignUpBtn = true, onOpenLoginModal }) => {
     <header className="initPageHeader">
       <div className="menuDiv">
         <Link to={'/'}>
-          <img src={location.pathname === '/' ? logo : logo1} alt="webSiteLogo" className="logo" />
+          <img
+            src={location.pathname === '/' ? logo : logo1}
+            alt="webSiteLogo"
+            className="logo"
+          />
         </Link>
 
         <Link to={'/'}>
@@ -92,10 +96,13 @@ export const Header = ({ showSignUpBtn = true, onOpenLoginModal }) => {
         </div>
       </div>
       <div className="login">
-        <button className="signInBtn login" onClick={() => {
-          console.log("Botão de Login clicado"); // Mensagem de depuração
-          onOpenLoginModal();
-        }}>
+        <button
+          className="signInBtn login"
+          onClick={() => {
+            console.log('Botão de Login clicado'); // Mensagem de depuração
+            onOpenLoginModal();
+          }}
+        >
           Login
         </button>
         {showSignUpBtn && (

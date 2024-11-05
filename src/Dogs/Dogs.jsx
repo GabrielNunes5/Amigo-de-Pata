@@ -12,13 +12,14 @@ export default function Dogs() {
     try {
       const response = await axios.get('http://127.0.0.1:5000/dogs/filter', {
         params: {
-         dog_color: selectedColor || undefined,
-         dog_age: selectedAge || undefined,
-         dog_adopted: selectedAdopted !== '' 
-          ? selectedAdopted === 'adotado' 
-            ? true 
-            : false 
-          : undefined,
+          dog_color: selectedColor || undefined,
+          dog_age: selectedAge || undefined,
+          dog_adopted:
+            selectedAdopted !== ''
+              ? selectedAdopted === 'adotado'
+                ? true
+                : false
+              : undefined,
         },
       });
       setDogs(response.data.dogs);
@@ -26,11 +27,10 @@ export default function Dogs() {
       console.error('Erro ao buscar cachorros:', error);
     }
   };
-  
 
   useEffect(() => {
     fetchDogs();
-  }, [selectedColor, selectedAge, selectedAdopted]); 
+  }, [selectedColor, selectedAge, selectedAdopted]);
 
   const handleColorChange = (e) => {
     const color = e.target.value;
@@ -42,10 +42,7 @@ export default function Dogs() {
       <aside className="filterAside">
         <div>
           <label htmlFor="colorFilter">Cor</label>
-          <select
-            id="colorFilter"
-            onChange={handleColorChange}
-          >
+          <select id="colorFilter" onChange={handleColorChange}>
             <option value="">Todas</option>
             <option value="preto">Preto</option>
             <option value="branco">Branco</option>

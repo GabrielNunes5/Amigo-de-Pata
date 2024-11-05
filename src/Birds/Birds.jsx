@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Birds.css';
 
-export const Birds = ()=> {
+export const Birds = () => {
   const [birds, setBirds] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState('');
   const [selectedAgeRange, setSelectedAgeRange] = useState('');
@@ -23,7 +23,6 @@ export const Birds = ()=> {
         },
       });
 
-      
       if (response.data.birds.length > 0) {
         setBirds(response.data.birds);
       } else {
@@ -31,12 +30,12 @@ export const Birds = ()=> {
       }
     } catch (error) {
       console.error('Erro ao buscar pássaros:', error);
-      setBirds([]); 
+      setBirds([]);
     }
   };
 
   useEffect(() => {
-    fetchBirds(); 
+    fetchBirds();
   }, [selectedSpecies, selectedAgeRange, selectedAdopted]);
 
   const handleSpeciesChange = (e) => {
@@ -98,4 +97,4 @@ export const Birds = ()=> {
       </main>
     </div>
   );
-}
+};

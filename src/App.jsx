@@ -1,11 +1,11 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './Header/Header';
-import Home from './Home/Home'; 
-import Register from './Register/Register'; 
+import Home from './Home/Home';
+import Register from './Register/Register';
 import Cats from './Cats/Cats';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Dogs from './Dogs/Dogs';
 import { Birds } from './Birds/Birds';
 import { Misc } from './Misce/Misc';
@@ -21,10 +21,11 @@ function App() {
 
   return (
     <>
-     
-      <Header showSignUpBtn={!isRegisterPage} onOpenLoginModal={openLoginModal} /> 
+      <Header
+        showSignUpBtn={!isRegisterPage}
+        onOpenLoginModal={openLoginModal}
+      />
 
-    
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />

@@ -16,21 +16,29 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
   const [activeTab, setActiveTab] = useState('login');
 
   const validatePassword = (password) => {
-    return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/.test(password);
+    return /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/.test(
+      password,
+    );
   };
 
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setSignupPassword(value);
     setPasswordError(
-      !validatePassword(value) ? 'A senha deve ter no mínimo 7 caracteres, uma letra maiúscula, um número e um caractere especial.' : ''
+      !validatePassword(value)
+        ? 'A senha deve ter no mínimo 7 caracteres, uma letra maiúscula, um número e um caractere especial.'
+        : '',
     );
   };
 
   const handleConfirmPasswordChange = (e) => {
     const value = e.target.value;
     setConfirmPassword(value);
-    setPasswordError(value !== signupPassword ? 'A confirmação da senha deve corresponder.' : '');
+    setPasswordError(
+      value !== signupPassword
+        ? 'A confirmação da senha deve corresponder.'
+        : '',
+    );
   };
 
   const handleLogin = async (e) => {
@@ -45,7 +53,7 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
     e.preventDefault();
     if (!passwordError && signupPassword === confirmPassword) {
       setActiveTab('login');
-      resetForm(); // Limpa os campos após o cadastro
+      resetForm();
     }
   };
 
@@ -56,7 +64,7 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
   };
 
   const handleCloseModal = () => {
-    resetForm(); // Limpa os campos ao fechar o modal
+    resetForm();
     onCloseModal();
   };
 
@@ -87,7 +95,7 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
         setPassword(savedLogin.password);
       }
     } else if (!isModalOpen) {
-      resetForm(); 
+      resetForm();
     }
   }, [isModalOpen]);
 
@@ -124,21 +132,41 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
             <h2 className="formTitle">Login</h2>
             <div className="formGroup">
               <label>Email: </label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div className="formGroup">
               <label>Senha: </label>
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
             <div className="formGroup">
               <label>
-                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
                 Lembrar-me
               </label>
             </div>
             <div className="bTnContainer">
-              <button type="submit" className="confirmLogin">Entrar</button>
-              <button type="button" className="closeBtn" onClick={handleCloseModal}>
+              <button type="submit" className="confirmLogin">
+                Entrar
+              </button>
+              <button
+                type="button"
+                className="closeBtn"
+                onClick={handleCloseModal}
+              >
                 Fechar
               </button>
             </div>
@@ -148,17 +176,32 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
             <h2 className="formTitle">Cadastre-se</h2>
             <div className="formGroup">
               <label>Nome: </label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
             </div>
             <div className="formGroup">
               <label>Telefone: </label>
-              <ReactInputMask mask="(99) 99999-9999" value={phone} onChange={(e) => setPhone(e.target.value)} required>
+              <ReactInputMask
+                mask="(99) 99999-9999"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              >
                 {(inputProps) => <input {...inputProps} type="tel" />}
               </ReactInputMask>
             </div>
             <div className="formGroup">
               <label>Data de Nascimento: </label>
-              <ReactInputMask mask="99/99/9999" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required>
+              <ReactInputMask
+                mask="99/99/9999"
+                value={birthDate}
+                onChange={(e) => setBirthDate(e.target.value)}
+                required
+              >
                 {(inputProps) => <input {...inputProps} type="text" />}
               </ReactInputMask>
             </div>
@@ -170,7 +213,9 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
                 onChange={handlePasswordChange}
                 required
               />
-              {passwordError && <small className="error">{passwordError}</small>}
+              {passwordError && (
+                <small className="error">{passwordError}</small>
+              )}
             </div>
             <div className="formGroup">
               <label>Confirme a Senha: </label>
@@ -181,12 +226,22 @@ export const LoginModal = ({ isModalOpen, onCloseModal }) => {
                 required
               />
               {confirmPassword !== signupPassword && confirmPassword && (
-                <small className="error">A confirmação e a senha devem ser iguais.</small>
+                <small className="error">
+                  A confirmação e a senha devem ser iguais.
+                </small>
               )}
             </div>
             <div className="bTnContainer">
-              <button type="submit" className="confirmLogin">Cadastrar</button>
-              <button type="button" className="closeBtn" onClick={handleCloseModal}>Fechar</button>
+              <button type="submit" className="confirmLogin">
+                Cadastrar
+              </button>
+              <button
+                type="button"
+                className="closeBtn"
+                onClick={handleCloseModal}
+              >
+                Fechar
+              </button>
             </div>
           </form>
         )}

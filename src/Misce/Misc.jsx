@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Misc.css';
 
-export const Misc = ()=> {
+export const Misc = () => {
   const [animals, setAnimals] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState('');
   const [selectedAgeRange, setSelectedAgeRange] = useState('');
@@ -14,11 +14,12 @@ export const Misc = ()=> {
         params: {
           animal_species: selectedSpecies || undefined,
           animal_age_range: selectedAgeRange || undefined,
-          animal_adopted: selectedAdopted !== '' 
-            ? selectedAdopted === 'adotado' 
-              ? true 
-              : false 
-            : undefined,
+          animal_adopted:
+            selectedAdopted !== ''
+              ? selectedAdopted === 'adotado'
+                ? true
+                : false
+              : undefined,
         },
       });
 
@@ -42,7 +43,10 @@ export const Misc = ()=> {
       <aside className="filterAside">
         <div>
           <label htmlFor="speciesFilter">Espécie</label>
-          <select id="speciesFilter" onChange={(e) => setSelectedSpecies(e.target.value)}>
+          <select
+            id="speciesFilter"
+            onChange={(e) => setSelectedSpecies(e.target.value)}
+          >
             <option value="">Todas</option>
             <option value="iguana">Iguana</option>
             <option value="cobra">Cobra</option>
@@ -52,7 +56,10 @@ export const Misc = ()=> {
         </div>
         <div>
           <label htmlFor="ageRangeFilter">Faixa Etária</label>
-          <select id="ageRangeFilter" onChange={(e) => setSelectedAgeRange(e.target.value)}>
+          <select
+            id="ageRangeFilter"
+            onChange={(e) => setSelectedAgeRange(e.target.value)}
+          >
             <option value="">Todas</option>
             <option value="jovem">Jovem</option>
             <option value="adulto">Adulto</option>
@@ -61,7 +68,10 @@ export const Misc = ()=> {
         </div>
         <div>
           <label htmlFor="adoptedFilter">Status de Adoção</label>
-          <select id="adoptedFilter" onChange={(e) => setSelectedAdopted(e.target.value)}>
+          <select
+            id="adoptedFilter"
+            onChange={(e) => setSelectedAdopted(e.target.value)}
+          >
             <option value="">Todos</option>
             <option value="adotado">Adotado</option>
             <option value="nao_adotado">Não Adotado</option>
@@ -85,4 +95,4 @@ export const Misc = ()=> {
       </main>
     </div>
   );
-}
+};
