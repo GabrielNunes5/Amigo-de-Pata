@@ -5,15 +5,16 @@ import './Misc.css';
 export const Misc = () => {
   const [animals, setAnimals] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState('');
-  const [selectedAgeRange, setSelectedAgeRange] = useState('');
+  const [selectedAge, setSelectedAge] = useState('');
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchAnimals = async () => {
+    setAnimals([]); // Limpa a lista antes de buscar os dados atualizados
     try {
       const response = await axios.get('http://127.0.0.1:5000/animals/filter', {
         params: {
           animal_species: selectedSpecies || undefined,
-          animal_age_range: selectedAgeRange || undefined,
+          animal_age: selectedAge || undefined,
           animal_adopted:
             selectedAdopted !== ''
               ? selectedAdopted === 'adotado'
@@ -22,43 +23,54 @@ export const Misc = () => {
               : undefined,
         },
       });
-
-      if (response.data.animals.length > 0) {
-        setAnimals(response.data.animals);
-      } else {
-        setAnimals([]);
-      }
+      setAnimals(response.data.animals);
     } catch (error) {
       console.error('Erro ao buscar animais:', error);
-      setAnimals([]);
     }
   };
 
   useEffect(() => {
     fetchAnimals();
-  }, [selectedSpecies, selectedAgeRange, selectedAdopted]);
+  }, [selectedSpecies, selectedAge, selectedAdopted]);
+
+  const handleSpeciesChange = (e) => {
+    setSelectedSpecies(e.target.value);
+  };
+
+  const getNoAnimalsMessage = () => {
+    if (!selectedSpecies && !selectedAge && !selectedAdopted) {
+      return 'Nenhum animal encontrado';
+    }
+    let message = 'Nenhum ';
+    if (selectedSpecies) {
+      message += `${selectedSpecies}`;
+    } else if (selectedAge) {
+      message += `${selectedAge}`;
+    } else if (selectedAdopted) {
+      message += `${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
+    }
+    message += ' encontrado.';
+    return message;
+  };
 
   return (
     <div className="outrosPage">
       <aside className="filterAside">
         <div>
           <label htmlFor="speciesFilter">Espécie</label>
-          <select
-            id="speciesFilter"
-            onChange={(e) => setSelectedSpecies(e.target.value)}
-          >
+          <select id="speciesFilter" onChange={handleSpeciesChange}>
             <option value="">Todas</option>
             <option value="iguana">Iguana</option>
             <option value="cobra">Cobra</option>
             <option value="tartaruga">Tartaruga</option>
-            <option value="ferret">Furão</option>
+            <option value="furão">Furão</option>
           </select>
         </div>
         <div>
           <label htmlFor="ageRangeFilter">Faixa Etária</label>
           <select
             id="ageRangeFilter"
-            onChange={(e) => setSelectedAgeRange(e.target.value)}
+            onChange={(e) => setSelectedAge(e.target.value)}
           >
             <option value="">Todas</option>
             <option value="jovem">Jovem</option>
@@ -90,7 +102,7 @@ export const Misc = () => {
             </a>
           ))
         ) : (
-          <p>Nenhum animal encontrado.</p>
+          <p>{getNoAnimalsMessage()}</p>
         )}
       </main>
     </div>

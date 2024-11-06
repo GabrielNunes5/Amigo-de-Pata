@@ -9,11 +9,12 @@ export const Birds = () => {
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchBirds = async () => {
+    setBirds([]);
     try {
       const response = await axios.get('http://127.0.0.1:5000/birds/filter', {
         params: {
           bird_species: selectedSpecies || undefined,
-          bird_age_range: selectedAgeRange || undefined,
+          bird_age: selectedAgeRange || undefined,
           bird_adopted:
             selectedAdopted !== ''
               ? selectedAdopted === 'adotado'
@@ -22,15 +23,9 @@ export const Birds = () => {
               : undefined,
         },
       });
-
-      if (response.data.birds.length > 0) {
-        setBirds(response.data.birds);
-      } else {
-        setBirds([]);
-      }
+      setBirds(response.data.birds);
     } catch (error) {
       console.error('Erro ao buscar pássaros:', error);
-      setBirds([]);
     }
   };
 
@@ -39,8 +34,23 @@ export const Birds = () => {
   }, [selectedSpecies, selectedAgeRange, selectedAdopted]);
 
   const handleSpeciesChange = (e) => {
-    const species = e.target.value;
-    setSelectedSpecies(species);
+    setSelectedSpecies(e.target.value);
+  };
+
+  const getNoBirdsMessage = () => {
+    if (!selectedSpecies && !selectedAgeRange && !selectedAdopted) {
+      return 'Nenhum pássaro encontrado';
+    }
+    let message = 'Nenhum ';
+    if (selectedSpecies) {
+      message += `${selectedSpecies}`;
+    } else if (selectedAgeRange) {
+      message += `${selectedAgeRange}`;
+    } else if (selectedAdopted) {
+      message += `${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
+    }
+    message += ' encontrado.';
+    return message;
   };
 
   return (
@@ -63,7 +73,7 @@ export const Birds = () => {
             onChange={(e) => setSelectedAgeRange(e.target.value)}
           >
             <option value="">Todas</option>
-            <option value="filhote">Filhote</option>
+            <option value="jovem">Jovem</option>
             <option value="adulto">Adulto</option>
             <option value="idoso">Idoso</option>
           </select>
@@ -92,7 +102,7 @@ export const Birds = () => {
             </a>
           ))
         ) : (
-          <p>Nenhum pássaro encontrado.</p>
+          <p>{getNoBirdsMessage()}</p>
         )}
       </main>
     </div>

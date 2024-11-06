@@ -9,6 +9,7 @@ export default function Dogs() {
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchDogs = async () => {
+    setDogs([])
     try {
       const response = await axios.get('http://127.0.0.1:5000/dogs/filter', {
         params: {
@@ -37,6 +38,22 @@ export default function Dogs() {
     setSelectedColor(color);
   };
 
+  const getNoDogsMessage = ()=>{
+    if(!selectedColor && !selectedAge && !selectedAdopted){
+      return 'Nenhum cachorro encontrado'
+    }
+    let message = 'Nenhum cachorro '
+    if(selectedColor){
+      message += `${selectedColor}`
+    }else if(selectedAge){
+      message += `${selectedAge}`
+    }else if(selectedAdopted){
+      message += `${selectedAdopted ==='adotado' ? 'adotado' : 'não adotado'}`
+    }
+    message += ' encontrado.'
+    return message
+  }
+
   return (
     <div className="dogsPage">
       <aside className="filterAside">
@@ -46,8 +63,8 @@ export default function Dogs() {
             <option value="">Todas</option>
             <option value="preto">Preto</option>
             <option value="branco">Branco</option>
-            <option value="marrom">Caramelo</option>
-            <option value="duasCores">Multi cores</option>
+            <option value="caramelo">Caramelo</option>
+            <option value="colorido">Multi cores</option>
           </select>
         </div>
         <div>
@@ -76,18 +93,18 @@ export default function Dogs() {
         </div>
       </aside>
 
-      <main className="filtereddogs">
+      <main className="filteredDogs">
         {dogs.length > 0 ? (
           dogs.map((dog) => (
             <a key={dog.dog_name} href={`/dogs/${dog.dog_name}`}>
-              <div>
+              <div className="dogCard">
                 <img src={dog.dog_image_url} alt={dog.dog_name} />
                 <p>{dog.dog_name}</p>
               </div>
             </a>
           ))
         ) : (
-          <p>Nenhum cachorro encontrado.</p>
+          <p>{getNoDogsMessage()}</p>
         )}
       </main>
     </div>

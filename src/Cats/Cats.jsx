@@ -9,6 +9,7 @@ export default function Cats() {
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchCats = async () => {
+    setCats([]);
     try {
       const response = await axios.get('http://127.0.0.1:5000/cats/filter', {
         params: {
@@ -22,27 +23,35 @@ export default function Cats() {
               : undefined,
         },
       });
-
-      // Verifica se o retorno tem gatos, caso contrário, define uma lista vazia
-      if (response.data.cats.length > 0) {
-        setCats(response.data.cats);
-      } else {
-        setCats([]);
-      }
+      setCats(response.data.cats);
     } catch (error) {
       console.error('Erro ao buscar gatos:', error);
-      setCats([]); // Limpa os gatos filtrados em caso de erro
     }
   };
 
   useEffect(() => {
-    fetchCats(); // Chama o filtro ao inicializar a página e ao mudar os filtros
+    fetchCats();
   }, [selectedColor, selectedAge, selectedAdopted]);
 
   const handleColorChange = (e) => {
-    const color = e.target.value;
-    setSelectedColor(color);
+    setSelectedColor(e.target.value);
   };
+
+  const getNoCatsMessage = ()=>{
+    if(!selectedColor && !selectedAge && !selectedAdopted){
+      return 'Nenhum gato encontrado'
+    }
+    let message = 'Nenhum gato '
+    if(selectedColor){
+      message += `${selectedColor}`
+    }else if(selectedAge){
+      message += `${selectedAge}`
+    }else if(selectedAdopted){
+      message += `${selectedAdopted ==='adotado' ? 'adotado' : 'não adotado'}`
+    }
+    message += ' encontrado.'
+    return message
+  }
 
   return (
     <div className="catsPage">
@@ -94,7 +103,7 @@ export default function Cats() {
             </a>
           ))
         ) : (
-          <p>Nenhum gato encontrado.</p>
+          <p>{getNoCatsMessage()}</p>
         )}
       </main>
     </div>
