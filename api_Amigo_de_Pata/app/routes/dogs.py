@@ -338,6 +338,8 @@ def filter_dogs():
         dog_age = request.args.get('dog_age', type=str)
         # Cor do gato
         dog_color = request.args.get('dog_color', type=str)
+        # Cor do gato
+        dog_sized = request.args.get('dog_sized', type=str)
         # URL da imagem
         dog_image_url = request.args.get('dog_image_url', type=str)
         # Se está adotado
@@ -354,6 +356,8 @@ def filter_dogs():
             query = query.filter_by(dog_age=dog_age)
         if dog_color is not None:
             query = query.filter_by(dog_color=dog_color)
+        if dog_sized is not None:
+            query = query.filter_by(dog_sized=dog_sized)
         if dog_image_url is not None:
             query = query.filter_by(dog_image_url=dog_image_url)
         if dog_adopted is not None:
@@ -399,5 +403,5 @@ def gerar_response(status, nome_conteudo, conteudo, mensagem=False):
     return Response(
         json.dumps(body),
         status=status,
-        mimetype='applidogion/json'
+        mimetype='application/json'
     )

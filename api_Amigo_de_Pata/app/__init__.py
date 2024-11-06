@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-from dotenv import load_dotenv
 import os
 
 from app.config.settings import Config
@@ -12,8 +11,6 @@ from app.routes.dogs import dogs_bp
 from app.routes.birds import birds_bp
 from app.routes.misce import animals_bp
 
-# Carregar variáveis de ambiente do arquivo .env
-load_dotenv()
 
 # Definir a URI do banco de dados usando as variáveis de ambiente
 DB_USER = os.getenv("DB_USER")
@@ -22,25 +19,22 @@ DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 DB_NAME = os.getenv("DB_NAME")
 
+
 def create_app():
     app = Flask(__name__)
-    
+
     # Carregar as configurações básicas do arquivo Config
     app.config.from_object(Config)
-    
-    # Configurar a URI do banco de dados dinâmicamente usando variáveis de ambiente
-    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    
+
     # Ativar CORS
     CORS(app)
-    
+
     # Inicializar o banco de dados com a aplicação
     db.init_app(app)
-    
+
     with app.app_context():
         db.create_all()
-    
+
     # Registrar os Blueprints após garantir que o banco foi inicializado
     app.register_blueprint(users_bp)
     app.register_blueprint(cats_bp)

@@ -395,5 +395,5 @@ def gerar_response(status, nome_conteudo, conteudo, mensagem=False):
     return Response(
         json.dumps(body),
         status=status,
-        mimetype='applianimalion/json'
+        mimetype='application/json'
     )
