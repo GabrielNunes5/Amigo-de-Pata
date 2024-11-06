@@ -81,7 +81,7 @@ def get_no_adopted_dogs():
         )
 
 
-# Filtrar um gato por nome do DB
+# Filtrar um cachorro por nome do DB
 @dogs_bp.route('/dogs/name/<string:dog_name>', methods=['GET'])
 def get_dog_name(dog_name):
     try:
@@ -112,7 +112,7 @@ def get_dog_name(dog_name):
         )
 
 
-# Filtrar um gato por idade do DB
+# Filtrar um cachorro por idade do DB
 @dogs_bp.route('/dogs/age/<string:dog_age>', methods=['GET'])
 def get_dog_age(dog_age):
     valid_ages = ["jovem", "adulto", "idoso"]
@@ -154,7 +154,7 @@ def get_dog_age(dog_age):
         )
 
 
-# Filtra um gato pela cor
+# Filtra um cachorro pela cor
 @dogs_bp.route('/dogs/color/<string:dog_color>', methods=['GET'])
 def get_dog_color(dog_color):
     try:
@@ -182,13 +182,13 @@ def get_dog_color(dog_color):
         )
 
 
-# Cria um gato no BD
+# Cria um cachorro no BD
 @dogs_bp.route('/dogs', methods=['POST'])
 def post_dog():
     body = request.get_json()
 
     try:
-        # Verifica se já existe um gato com o mesmo nome
+        # Verifica se já existe um cachorro com o mesmo nome
         existing_dog = Dogs.query.filter_by(dog_name=body['dog_name']).first()
         if existing_dog:
             return gerar_response(
@@ -241,11 +241,11 @@ def post_dog():
         )
 
 
-# Atualizar um gato no BD
+# Atualizar um cachorro no BD
 @dogs_bp.route('/dogs/<dog_id>', methods=['PUT'])
 def update_dog(dog_id):
     try:
-        # Buscar o gato pelo ID
+        # Buscar o cachorro pelo ID
         dog = Dogs.query.filter_by(dog_id=dog_id).first()
 
         if not dog:
@@ -296,11 +296,11 @@ def update_dog(dog_id):
         )
 
 
-# Deletar um gato do BD
+# Deletar um cachorro do BD
 @dogs_bp.route('/dogs/<dog_id>', methods=['DELETE'])
 def delete_dog(dog_id):
     try:
-        # Buscar o gato pelo ID
+        # Buscar o cachorro pelo ID
         dog = Dogs.query.filter_by(dog_id=dog_id).first()
         if not dog:
             return gerar_response(
@@ -332,13 +332,13 @@ def delete_dog(dog_id):
 def filter_dogs():
     try:
         # Obtendo parâmetros opcionais da query string
-        # Nome do gato
+        # Nome do cachorro
         dog_name = request.args.get('dog_name', type=str)
-        # Idade do gato
+        # Idade do cachorro
         dog_age = request.args.get('dog_age', type=str)
-        # Cor do gato
+        # Cor do cachorro
         dog_color = request.args.get('dog_color', type=str)
-        # Cor do gato
+        # Cor do cachorro
         dog_sized = request.args.get('dog_sized', type=str)
         # URL da imagem
         dog_image_url = request.args.get('dog_image_url', type=str)
