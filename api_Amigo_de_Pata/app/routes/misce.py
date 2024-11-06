@@ -340,7 +340,7 @@ def filter_animals():
         # Idade do animal
         animal_age = request.args.get('animal_age', type=str)
         # Cor do animal
-        animal_color = request.args.get('animal_color', type=str)
+        animal_species = request.args.get('animal_species', type=str)
         # URL da imagem
         animal_image_url = request.args.get('animal_image_url', type=str)
         # Se está adotado
@@ -354,8 +354,8 @@ def filter_animals():
             query = query.filter_by(animal_name=animal_name)
         if animal_age is not None:
             query = query.filter_by(animal_age=animal_age)
-        if animal_color is not None:
-            query = query.filter_by(animal_color=animal_color)
+        if animal_species is not None:
+            query = query.filter_by(animal_species=animal_species)
         if animal_image_url is not None:
             query = query.filter_by(animal_image_url=animal_image_url)
         if animal_adopted is not None:

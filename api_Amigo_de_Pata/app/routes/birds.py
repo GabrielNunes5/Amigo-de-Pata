@@ -338,8 +338,8 @@ def filter_birds():
         bird_name = request.args.get('bird_name', type=str)
         # Idade do passaro
         bird_age = request.args.get('bird_age', type=str)
-        # Cor do passaro
-        bird_color = request.args.get('bird_color', type=str)
+        # Especie do passaro
+        bird_specie = request.args.get('bird_specie', type=str)
         # URL da imagem
         bird_image_url = request.args.get('bird_image_url', type=str)
         # Se está adotado
@@ -353,8 +353,8 @@ def filter_birds():
             query = query.filter_by(bird_name=bird_name)
         if bird_age is not None:
             query = query.filter_by(bird_age=bird_age)
-        if bird_color is not None:
-            query = query.filter_by(bird_color=bird_color)
+        if bird_specie is not None:
+            query = query.filter_by(bird_specie=bird_specie)
         if bird_image_url is not None:
             query = query.filter_by(bird_image_url=bird_image_url)
         if bird_adopted is not None:
