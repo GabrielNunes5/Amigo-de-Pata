@@ -13,14 +13,9 @@ export const Birds = () => {
     try {
       const response = await axios.get('http://127.0.0.1:5000/birds/filter', {
         params: {
-          bird_species: selectedSpecies || undefined,
-          bird_age: selectedAgeRange || undefined,
-          bird_adopted:
-            selectedAdopted !== ''
-              ? selectedAdopted === 'adotado'
-                ? true
-                : false
-              : undefined,
+          bird_specie: selectedSpecies || undefined,
+          bird_age: selectedAgeRange || undefined, 
+          bird_adopted: selectedAdopted === 'adotado' ? true : selectedAdopted === 'nao_adotado' ? false : undefined,
         },
       });
       setBirds(response.data.birds);
@@ -38,19 +33,14 @@ export const Birds = () => {
   };
 
   const getNoBirdsMessage = () => {
-    if (!selectedSpecies && !selectedAgeRange && !selectedAdopted) {
+    if (!selectedSpecies && !selectedAgeRange && selectedAdopted === '') {
       return 'Nenhum pássaro encontrado';
     }
     let message = 'Nenhum ';
-    if (selectedSpecies) {
-      message += `${selectedSpecies}`;
-    } else if (selectedAgeRange) {
-      message += `${selectedAgeRange}`;
-    } else if (selectedAdopted) {
-      message += `${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
-    }
-    message += ' encontrado.';
-    return message;
+    if (selectedSpecies) message += selectedSpecies;
+    if (selectedAgeRange) message += ` ${selectedAgeRange}`;
+    if (selectedAdopted) message += ` ${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
+    return `${message} encontrado.`;
   };
 
   return (
@@ -94,10 +84,10 @@ export const Birds = () => {
       <main className="filteredBirds">
         {birds.length > 0 ? (
           birds.map((bird) => (
-            <a key={bird.bird_name} href={`/birds/${bird.bird_name}`}>
+            <a key={bird.bird_specie} href={`/birds/${bird.bird_specie}`}>
               <div>
-                <img src={bird.bird_image_url} alt={bird.bird_name} />
-                <p>{bird.bird_name}</p>
+                <img src={bird.bird_image_url} alt={bird.bird_specie} />
+                <p>{bird.bird_specie}</p>
               </div>
             </a>
           ))
