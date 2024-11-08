@@ -338,8 +338,16 @@ def filter_birds():
         bird_name = request.args.get('bird_name', type=str)
         # Idade do passaro
         bird_age = request.args.get('bird_age', type=str)
+        # Idade do passaro em inteiro
+        bird_num_age = request.args.get('bird_num_age', type=int)
         # Especie do passaro
         bird_specie = request.args.get('bird_specie', type=str)
+        # Sexo do passaro
+        bird_sex = request.args.get('bird_sex', type=str)
+        # Condições especiais do passaro
+        bird_special_conditions = request.args.get(
+            'bird_special_conditions',
+            type=lambda x: (str(x).lower() == 'true'))
         # URL da imagem
         bird_image_url = request.args.get('bird_image_url', type=str)
         # Se está adotado
@@ -347,20 +355,29 @@ def filter_birds():
             'bird_adopted', type=lambda x: (str(x).lower() == 'true'))
         # ID do adotante
         adopter_id = request.args.get('adopter_id', type=int)
+
         # Construindo a query com base nos filtros fornecidos
         query = Birds.query
         if bird_name is not None:
             query = query.filter_by(bird_name=bird_name)
         if bird_age is not None:
             query = query.filter_by(bird_age=bird_age)
+        if bird_num_age is not None:
+            query = query.filter_by(bird_num_age=bird_num_age)
         if bird_specie is not None:
             query = query.filter_by(bird_specie=bird_specie)
+        if bird_sex is not None:
+            query = query.filter_by(bird_sex=bird_sex)
+        if bird_special_conditions is not None:
+            query = query.filter_by(
+                bird_special_conditions=bird_special_conditions)
         if bird_image_url is not None:
             query = query.filter_by(bird_image_url=bird_image_url)
         if bird_adopted is not None:
             query = query.filter_by(bird_adopted=bird_adopted)
         if adopter_id is not None:
             query = query.filter_by(adopter_id=adopter_id)
+
         # Executa a query final
         birds = query.all()
         birds_json = [bird.to_json() for bird in birds]

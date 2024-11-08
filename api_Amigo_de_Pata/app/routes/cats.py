@@ -337,8 +337,20 @@ def filter_cats():
         cat_name = request.args.get('cat_name', type=str)
         # Idade do gato
         cat_age = request.args.get('cat_age', type=str)
-        # Cor do gato
+        # Idade do gato em inteiro
+        cat_num_age = request.args.get('cat_num_age', type=int)
+        # Especie do gato
         cat_color = request.args.get('cat_color', type=str)
+        # Sexo do gato
+        cat_sex = request.args.get('cat_sex', type=str)
+        # As vacinas do gato
+        cat_vaccines = request.args.get('cat_vaccines', type=str)
+        # Se existem condições especiais
+        cat_special_conditions = request.args.get(
+            'cat_special_conditions',
+            type=lambda x: (str(x).lower() == 'true'))
+        # Se o gato está castrado
+        cat_neutered = request.args.get('cat_neutered', type=str)
         # URL da imagem
         cat_image_url = request.args.get('cat_image_url', type=str)
         # Se está adotado
@@ -346,27 +358,40 @@ def filter_cats():
             'cat_adopted', type=lambda x: (str(x).lower() == 'true'))
         # ID do adotante
         adopter_id = request.args.get('adopter_id', type=int)
+
         # Construindo a query com base nos filtros fornecidos
         query = Cats.query
         if cat_name is not None:
             query = query.filter_by(cat_name=cat_name)
         if cat_age is not None:
             query = query.filter_by(cat_age=cat_age)
+        if cat_num_age is not None:
+            query = query.filter_by(cat_num_age=cat_num_age)
         if cat_color is not None:
             query = query.filter_by(cat_color=cat_color)
+        if cat_sex is not None:
+            query = query.filter_by(cat_sex=cat_sex)
+        if cat_vaccines is not None:
+            query = query.filter_by(cat_vaccines=cat_vaccines)
+        if cat_special_conditions is not None:
+            query = query.filter_by(
+                cat_special_conditions=cat_special_conditions)
+        if cat_neutered is not None:
+            query = query.filter_by(cat_neutered=cat_neutered)
         if cat_image_url is not None:
             query = query.filter_by(cat_image_url=cat_image_url)
         if cat_adopted is not None:
             query = query.filter_by(cat_adopted=cat_adopted)
         if adopter_id is not None:
             query = query.filter_by(adopter_id=adopter_id)
+
         # Executa a query final
         cats = query.all()
         cats_json = [cat.to_json() for cat in cats]
         if not cats_json:
             return gerar_response(
                 404,
-                'Cat',
+                'cat',
                 {},
                 'No cats found with the specified filters'
             )
@@ -379,7 +404,7 @@ def filter_cats():
     except Exception as e:
         return gerar_response(
             400,
-            'Cat',
+            'cat',
             {},
             f'Error: {str(e)}'
         )

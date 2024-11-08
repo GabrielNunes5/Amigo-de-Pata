@@ -336,10 +336,22 @@ def filter_dogs():
         dog_name = request.args.get('dog_name', type=str)
         # Idade do cachorro
         dog_age = request.args.get('dog_age', type=str)
-        # Cor do cachorro
+        # Idade do cachorro em inteiro
+        dog_num_age = request.args.get('dog_num_age', type=int)
+        # Especie do cachorro
         dog_color = request.args.get('dog_color', type=str)
-        # Cor do cachorro
+        # Tamanho do cachorro
         dog_sized = request.args.get('dog_sized', type=str)
+        # Sexo do cachorro
+        dog_sex = request.args.get('dog_sex', type=str)
+        # As vacinas do cachorro
+        dog_vaccines = request.args.get('dog_vaccines', type=str)
+        # Se existem condições especiais
+        dog_special_conditions = request.args.get(
+            'dog_special_conditions',
+            type=lambda x: (str(x).lower() == 'true'))
+        # Se o cachorro está castrado
+        dog_neutered = request.args.get('dog_neutered', type=str)
         # URL da imagem
         dog_image_url = request.args.get('dog_image_url', type=str)
         # Se está adotado
@@ -347,17 +359,28 @@ def filter_dogs():
             'dog_adopted', type=lambda x: (str(x).lower() == 'true'))
         # ID do adotante
         adopter_id = request.args.get('adopter_id', type=int)
+
         # Construindo a query com base nos filtros fornecidos
         query = Dogs.query
-
         if dog_name is not None:
             query = query.filter_by(dog_name=dog_name)
         if dog_age is not None:
             query = query.filter_by(dog_age=dog_age)
+        if dog_num_age is not None:
+            query = query.filter_by(dog_num_age=dog_num_age)
         if dog_color is not None:
             query = query.filter_by(dog_color=dog_color)
         if dog_sized is not None:
             query = query.filter_by(dog_sized=dog_sized)
+        if dog_sex is not None:
+            query = query.filter_by(dog_sex=dog_sex)
+        if dog_vaccines is not None:
+            query = query.filter_by(dog_vaccines=dog_vaccines)
+        if dog_special_conditions is not None:
+            query = query.filter_by(
+                dog_special_conditions=dog_special_conditions)
+        if dog_neutered is not None:
+            query = query.filter_by(dog_neutered=dog_neutered)
         if dog_image_url is not None:
             query = query.filter_by(dog_image_url=dog_image_url)
         if dog_adopted is not None:
@@ -368,7 +391,6 @@ def filter_dogs():
         # Executa a query final
         dogs = query.all()
         dogs_json = [dog.to_json() for dog in dogs]
-
         if not dogs_json:
             return gerar_response(
                 404,
@@ -376,14 +398,12 @@ def filter_dogs():
                 {},
                 'No dogs found with the specified filters'
             )
-
         return gerar_response(
             200,
             'dogs',
             dogs_json,
             'ok'
         )
-
     except Exception as e:
         return gerar_response(
             400,

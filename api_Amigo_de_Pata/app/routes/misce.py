@@ -335,12 +335,20 @@ def delete_animal(animal_id):
 def filter_animals():
     try:
         # Obtendo parâmetros opcionais da query string
-        # Nome do animal
+        # Nome do Animal
         animal_name = request.args.get('animal_name', type=str)
-        # Idade do animal
+        # Idade do Animal
         animal_age = request.args.get('animal_age', type=str)
-        # Cor do animal
-        animal_species = request.args.get('animal_species', type=str)
+        # Idade do Animal em inteiro
+        animal_num_age = request.args.get('animal_num_age', type=int)
+        # Especie do Animal
+        animal_specie = request.args.get('animal_specie', type=str)
+        # Sexo do Animal
+        animal_sex = request.args.get('animal_sex', type=str)
+        # Se existem condições especiais
+        animal_special_conditions = request.args.get(
+            'animal_special_conditions',
+            type=lambda x: (str(x).lower() == 'true'))
         # URL da imagem
         animal_image_url = request.args.get('animal_image_url', type=str)
         # Se está adotado
@@ -348,20 +356,29 @@ def filter_animals():
             'animal_adopted', type=lambda x: (str(x).lower() == 'true'))
         # ID do adotante
         adopter_id = request.args.get('adopter_id', type=int)
+
         # Construindo a query com base nos filtros fornecidos
         query = Animals.query
         if animal_name is not None:
             query = query.filter_by(animal_name=animal_name)
         if animal_age is not None:
             query = query.filter_by(animal_age=animal_age)
-        if animal_species is not None:
-            query = query.filter_by(animal_species=animal_species)
+        if animal_num_age is not None:
+            query = query.filter_by(animal_num_age=animal_num_age)
+        if animal_specie is not None:
+            query = query.filter_by(animal_specie=animal_specie)
+        if animal_sex is not None:
+            query = query.filter_by(animal_sex=animal_sex)
+        if animal_special_conditions is not None:
+            query = query.filter_by(
+                animal_special_conditions=animal_special_conditions)
         if animal_image_url is not None:
             query = query.filter_by(animal_image_url=animal_image_url)
         if animal_adopted is not None:
             query = query.filter_by(animal_adopted=animal_adopted)
         if adopter_id is not None:
             query = query.filter_by(adopter_id=adopter_id)
+
         # Executa a query final
         animals = query.all()
         animals_json = [animal.to_json() for animal in animals]
