@@ -11,6 +11,8 @@ import { Birds } from './Birds/Birds';
 import { Misc } from './Misce/Misc';
 import { LoginModal } from './LoginModal/Index';
 import { useState } from 'react';
+import Details from './Details';
+
 
 function App() {
   const location = useLocation();
@@ -33,6 +35,8 @@ function App() {
         <Route path="/dogs" element={<Dogs />} />
         <Route path="/birds" element={<Birds />} />
         <Route path="/others" element={<Misc />} />
+        <Route path="/:animalType/:animalId" element={<Details />} />
+
       </Routes>
 
       <LoginModal isModalOpen={isModalOpen} onCloseModal={closeLoginModal} />

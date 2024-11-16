@@ -37,21 +37,21 @@ export default function Cats() {
     setSelectedColor(e.target.value);
   };
 
-  const getNoCatsMessage = ()=>{
-    if(!selectedColor && !selectedAge && !selectedAdopted){
-      return 'Nenhum gato encontrado'
+  const getNoCatsMessage = () => {
+    if (!selectedColor && !selectedAge && !selectedAdopted) {
+      return 'Nenhum gato encontrado';
     }
-    let message = 'Nenhum gato '
-    if(selectedColor){
-      message += `${selectedColor}`
-    }else if(selectedAge){
-      message += `${selectedAge}`
-    }else if(selectedAdopted){
-      message += `${selectedAdopted ==='adotado' ? 'adotado' : 'não adotado'}`
+    let message = 'Nenhum gato ';
+    if (selectedColor) {
+      message += `${selectedColor}`;
+    } else if (selectedAge) {
+      message += `${selectedAge}`;
+    } else if (selectedAdopted) {
+      message += `${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
     }
-    message += ' encontrado.'
-    return message
-  }
+    message += ' encontrado.';
+    return message;
+  };
 
   return (
     <div className="catsPage">
@@ -96,6 +96,7 @@ export default function Cats() {
         {cats.length > 0 ? (
           cats.map((cat) => (
             <a key={cat.cat_name} href={`/cats/${cat.cat_name}`}>
+              {console.log(cat)}
               <div>
                 <img src={cat.cat_image_url} alt={cat.cat_name} />
                 <p>{cat.cat_name}</p>

@@ -168,3 +168,19 @@
   color: #8373DF;
   margin-bottom: 15px;
 }
+
+.formGroup.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Aumenta o espaçamento entre o checkbox e o texto */
+  padding: 20px;
+}
+
+
+.formGroup input[type="checkbox"] {
+  margin: auto;
+  width: auto; /* Remove largura padrão para ajustar ao tamanho */
+  height: auto; /* Ajusta a altura ao tamanho padrão do checkbox */
+  padding-left: 20px;
+}
+
