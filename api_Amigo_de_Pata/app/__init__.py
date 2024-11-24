@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_migrate import Migrate
 from app.config.settings import Config
 from app.database import db
 from app.routes.users import users_bp
@@ -18,6 +19,9 @@ def create_app():
 
     # Inicializar o banco de dados com a aplicação
     db.init_app(app)
+
+    # Configurar o Flask-Migrate
+    migrate = Migrate(app, db)
 
     with app.app_context():
         db.create_all()
