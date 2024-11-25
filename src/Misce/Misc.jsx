@@ -2,17 +2,29 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Misc.css';
 
-export const Misc = () => {
+export function Misc() {
   const [animals, setAnimals] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState('');
   const [selectedAge, setSelectedAge] = useState('');
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchAnimals = async () => {
-    setAnimals([]); // Limpa a lista antes de buscar os dados atualizados
+    console.log('Parâmetros enviados:', {
+      animal_category: 'outros',
+      animal_species: selectedSpecies || undefined,
+      animal_age: selectedAge || undefined,
+      animal_adopted:
+        selectedAdopted !== ''
+          ? selectedAdopted === 'adotado'
+            ? true
+            : false
+          : undefined,
+    });
+
     try {
-      const response = await axios.get('http://127.0.0.1:5000/animals/filter', {
+      const response = await axios.get('http://127.0.0.1:5000/animals?animal_category=outro', {
         params: {
+          animal_category: 'outros',
           animal_species: selectedSpecies || undefined,
           animal_age: selectedAge || undefined,
           animal_adopted:
@@ -34,7 +46,8 @@ export const Misc = () => {
   }, [selectedSpecies, selectedAge, selectedAdopted]);
 
   const handleSpeciesChange = (e) => {
-    setSelectedSpecies(e.target.value);
+    const species = e.target.value;
+    setSelectedSpecies(species);
   };
 
   const getNoAnimalsMessage = () => {
@@ -54,7 +67,7 @@ export const Misc = () => {
   };
 
   return (
-    <div className="outrosPage">
+    <div className="miscPage">
       <aside className="filterAside">
         <div>
           <label htmlFor="speciesFilter">Espécie</label>
@@ -67,9 +80,9 @@ export const Misc = () => {
           </select>
         </div>
         <div>
-          <label htmlFor="ageRangeFilter">Faixa Etária</label>
+          <label htmlFor="ageFilter">Idade</label>
           <select
-            id="ageRangeFilter"
+            id="ageFilter"
             onChange={(e) => setSelectedAge(e.target.value)}
           >
             <option value="">Todas</option>
@@ -90,12 +103,11 @@ export const Misc = () => {
           </select>
         </div>
       </aside>
-
       <main className="filteredAnimals">
         {animals.length > 0 ? (
           animals.map((animal) => (
             <a key={animal.animal_name} href={`/outros/${animal.animal_name}`}>
-              <div>
+              <div className="animalCard">
                 <img src={animal.animal_image_url} alt={animal.animal_name} />
                 <p>{animal.animal_name}</p>
               </div>
@@ -107,4 +119,4 @@ export const Misc = () => {
       </main>
     </div>
   );
-};
+}

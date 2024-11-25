@@ -7,7 +7,7 @@ import {
 import '../Header/Header.css';
 import SlickSliderComponent from '../Slider/Slider';
 import './Home.css';
-export default function Home() {
+export function Home() {
   const location = useLocation();
 
   const isSignUpPage = location.pathname === '/sign-up';

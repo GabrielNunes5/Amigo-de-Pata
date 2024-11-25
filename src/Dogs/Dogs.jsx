@@ -9,13 +9,25 @@ export default function Dogs() {
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchDogs = async () => {
-    setDogs([])
+    console.log('Parâmetros enviados:', {
+      animal_category: 'cachorro',
+      animal_color: selectedColor || undefined,
+      animal_age: selectedAge || undefined,
+      animal_adopted:
+        selectedAdopted !== ''
+          ? selectedAdopted === 'adotado'
+            ? true
+            : false
+          : undefined,
+    });
+
     try {
-      const response = await axios.get('http://127.0.0.1:5000/dogs/filter', {
+      const response = await axios.get('http://127.0.0.1:5000/animals?animal_category=cachorro', {
         params: {
-          dog_color: selectedColor || undefined,
-          dog_age: selectedAge || undefined,
-          dog_adopted:
+          animal_category: 'cachorro',
+          animal_color: selectedColor || undefined,
+          animal_age: selectedAge || undefined,
+          animal_adopted:
             selectedAdopted !== ''
               ? selectedAdopted === 'adotado'
                 ? true
@@ -23,7 +35,7 @@ export default function Dogs() {
               : undefined,
         },
       });
-      setDogs(response.data.dogs);
+      setDogs(response.data.animals); 
     } catch (error) {
       console.error('Erro ao buscar cachorros:', error);
     }
@@ -38,21 +50,21 @@ export default function Dogs() {
     setSelectedColor(color);
   };
 
-  const getNoDogsMessage = ()=>{
-    if(!selectedColor && !selectedAge && !selectedAdopted){
-      return 'Nenhum cachorro encontrado'
+  const getNoDogsMessage = () => {
+    if (!selectedColor && !selectedAge && !selectedAdopted) {
+      return 'Nenhum cachorro encontrado';
     }
-    let message = 'Nenhum cachorro '
-    if(selectedColor){
-      message += `${selectedColor}`
-    }else if(selectedAge){
-      message += `${selectedAge}`
-    }else if(selectedAdopted){
-      message += `${selectedAdopted ==='adotado' ? 'adotado' : 'não adotado'}`
+    let message = 'Nenhum cachorro ';
+    if (selectedColor) {
+      message += `${selectedColor}`;
+    } else if (selectedAge) {
+      message += `${selectedAge}`;
+    } else if (selectedAdopted) {
+      message += `${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
     }
-    message += ' encontrado.'
-    return message
-  }
+    message += ' encontrado.';
+    return message;
+  };
 
   return (
     <div className="dogsPage">
@@ -64,7 +76,7 @@ export default function Dogs() {
             <option value="preto">Preto</option>
             <option value="branco">Branco</option>
             <option value="caramelo">Caramelo</option>
-            <option value="colorido">Multi cores</option>
+            <option value="Multi cores">Multi cores</option>
           </select>
         </div>
         <div>
@@ -79,7 +91,6 @@ export default function Dogs() {
             <option value="idoso">Idoso</option>
           </select>
         </div>
-
         <div>
           <label htmlFor="adoptedFilter">Status de Adoção</label>
           <select
@@ -92,14 +103,13 @@ export default function Dogs() {
           </select>
         </div>
       </aside>
-
       <main className="filteredDogs">
         {dogs.length > 0 ? (
           dogs.map((dog) => (
-            <a key={dog.dog_name} href={`/dogs/${dog.dog_name}`}>
+            <a key={dog.animal_name} href={`/dogs/${dog.animal_name}`}>
               <div className="dogCard">
-                <img src={dog.dog_image_url} alt={dog.dog_name} />
-                <p>{dog.dog_name}</p>
+                <img src={dog.animal_image_url} alt={dog.animal_name} />
+                <p>{dog.animal_name}</p>
               </div>
             </a>
           ))

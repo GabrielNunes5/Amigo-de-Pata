@@ -2,23 +2,40 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Birds.css';
 
-export const Birds = () => {
+export function Birds() {
   const [birds, setBirds] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState('');
-  const [selectedAgeRange, setSelectedAgeRange] = useState('');
+  const [selectedAge, setSelectedAge] = useState('');
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchBirds = async () => {
-    setBirds([]);
+    console.log('Parâmetros enviados:', {
+      animal_category: 'pássaro',
+      bird_species: selectedSpecies || undefined,
+      bird_age: selectedAge || undefined,
+      bird_adopted:
+        selectedAdopted !== ''
+          ? selectedAdopted === 'adotado'
+            ? true
+            : false
+          : undefined,
+    });
+
     try {
-      const response = await axios.get('http://127.0.0.1:5000/birds/filter', {
+      const response = await axios.get('http://127.0.0.1:5000/animals?animal_category=passaro', {
         params: {
-          bird_specie: selectedSpecies || undefined,
-          bird_age: selectedAgeRange || undefined, 
-          bird_adopted: selectedAdopted === 'adotado' ? true : selectedAdopted === 'nao_adotado' ? false : undefined,
+          animal_category: 'pássaro',
+          bird_species: selectedSpecies || undefined,
+          bird_age: selectedAge || undefined,
+          bird_adopted:
+            selectedAdopted !== ''
+              ? selectedAdopted === 'adotado'
+                ? true
+                : false
+              : undefined,
         },
       });
-      setBirds(response.data.birds);
+      setBirds(response.data.animals);
     } catch (error) {
       console.error('Erro ao buscar pássaros:', error);
     }
@@ -26,21 +43,27 @@ export const Birds = () => {
 
   useEffect(() => {
     fetchBirds();
-  }, [selectedSpecies, selectedAgeRange, selectedAdopted]);
+  }, [selectedSpecies, selectedAge, selectedAdopted]);
 
   const handleSpeciesChange = (e) => {
-    setSelectedSpecies(e.target.value);
+    const species = e.target.value;
+    setSelectedSpecies(species);
   };
 
   const getNoBirdsMessage = () => {
-    if (!selectedSpecies && !selectedAgeRange && selectedAdopted === '') {
+    if (!selectedSpecies && !selectedAge && !selectedAdopted) {
       return 'Nenhum pássaro encontrado';
     }
-    let message = 'Nenhum ';
-    if (selectedSpecies) message += selectedSpecies;
-    if (selectedAgeRange) message += ` ${selectedAgeRange}`;
-    if (selectedAdopted) message += ` ${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
-    return `${message} encontrado.`;
+    let message = 'Nenhum pássaro ';
+    if (selectedSpecies) {
+      message += `${selectedSpecies}`;
+    } else if (selectedAge) {
+      message += `${selectedAge}`;
+    } else if (selectedAdopted) {
+      message += `${selectedAdopted === 'adotado' ? 'adotado' : 'não adotado'}`;
+    }
+    message += ' encontrado.';
+    return message;
   };
 
   return (
@@ -57,10 +80,10 @@ export const Birds = () => {
           </select>
         </div>
         <div>
-          <label htmlFor="ageRangeFilter">Faixa Etária</label>
+          <label htmlFor="ageFilter">Idade</label>
           <select
-            id="ageRangeFilter"
-            onChange={(e) => setSelectedAgeRange(e.target.value)}
+            id="ageFilter"
+            onChange={(e) => setSelectedAge(e.target.value)}
           >
             <option value="">Todas</option>
             <option value="jovem">Jovem</option>
@@ -80,14 +103,13 @@ export const Birds = () => {
           </select>
         </div>
       </aside>
-
       <main className="filteredBirds">
         {birds.length > 0 ? (
           birds.map((bird) => (
-            <a key={bird.bird_specie} href={`/birds/${bird.bird_specie}`}>
-              <div>
-                <img src={bird.bird_image_url} alt={bird.bird_specie} />
-                <p>{bird.bird_specie}</p>
+            <a key={bird.animal_name} href={`/birds/${bird.animal_name}`}>
+              <div className="birdCard">
+                <img src={bird.animal_image_url} alt={bird.animal_name} />
+                <p>{bird.animal_name}</p>
               </div>
             </a>
           ))
@@ -97,4 +119,4 @@ export const Birds = () => {
       </main>
     </div>
   );
-};
+}

@@ -9,13 +9,25 @@ export default function Cats() {
   const [selectedAdopted, setSelectedAdopted] = useState('');
 
   const fetchCats = async () => {
-    setCats([]);
+    console.log('Parâmetros enviados:', {
+      animal_category: 'gato',
+      animal_color: selectedColor || undefined,
+      animal_age: selectedAge || undefined,
+      animal_adopted:
+        selectedAdopted !== ''
+          ? selectedAdopted === 'adotado'
+            ? true
+            : false
+          : undefined,
+    });
+
     try {
-      const response = await axios.get('http://127.0.0.1:5000/cats/filter', {
+      const response = await axios.get('http://127.0.0.1:5000/animals?animal_category=gato', {
         params: {
-          cat_color: selectedColor || undefined,
-          cat_age: selectedAge || undefined,
-          cat_adopted:
+          animal_category: 'gato',
+          animal_color: selectedColor || undefined,
+          animal_age: selectedAge || undefined,
+          animal_adopted:
             selectedAdopted !== ''
               ? selectedAdopted === 'adotado'
                 ? true
@@ -23,7 +35,7 @@ export default function Cats() {
               : undefined,
         },
       });
-      setCats(response.data.cats);
+      setCats(response.data.animals); 
     } catch (error) {
       console.error('Erro ao buscar gatos:', error);
     }
@@ -91,15 +103,13 @@ export default function Cats() {
           </select>
         </div>
       </aside>
-
       <main className="filteredCats">
         {cats.length > 0 ? (
           cats.map((cat) => (
-            <a key={cat.cat_name} href={`/cats/${cat.cat_name}`}>
-              {console.log(cat)}
-              <div>
-                <img src={cat.cat_image_url} alt={cat.cat_name} />
-                <p>{cat.cat_name}</p>
+            <a key={cat.animal_name} href={`/cats/${cat.animal_name}`}>
+              <div className="catCard">
+                <img src={cat.animal_image_url} alt={cat.animal_name} />
+                <p>{cat.animal_name}</p>
               </div>
             </a>
           ))

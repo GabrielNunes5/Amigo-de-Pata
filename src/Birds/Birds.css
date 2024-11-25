@@ -2,46 +2,63 @@
   display: flex;
   flex-direction: row;
   width: 100%;
+  background-color: rgb(211, 211, 211);
+  font-family: Arial, sans-serif;
 }
 
 .filterAside {
-  width: 20%;
+  width: 25%;
   padding: 20px;
-  background-color: #f8f8f8;
+  background-color: rgb(211, 211, 211);
   border-right: 1px solid #ccc;
   position: sticky;
   top: 0;
-  height: 100vh; 
+  height: 100vh;
   overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .filteredBirds {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   padding: 20px;
-  width: 80%;
+  width: 75%;
+  background-color: rgb(211, 211, 211);
 }
 
-.filteredBirds div {
-  background-color: #fff;
+.birdCard {
+  background-color: #ffffff81;;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
-  height: 200px;
+  text-align: center;
   cursor: pointer;
 }
 
-.filteredBirds div:hover {
+.birdCard:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.filteredBirds img {
+.birdCard img {
   width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
-  display: block;
+  border-bottom: 1px solid #ddd;
+}
+
+.birdCard p {
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filteredBirds p {
+  font-size: 18px;
+  text-align: center;
+  color: #666;
 }
